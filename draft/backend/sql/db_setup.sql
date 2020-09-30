@@ -40,4 +40,3 @@ create table application (
         on delete restrict
 )
 engine = InnoDb;
-

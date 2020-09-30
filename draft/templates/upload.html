@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<h1>Upload Internship Application</h1>
+
+<form method="post" action="">
+<p><label>Company:
+    <input required type="text" name="compName"></label></p>
+
+<p><label>Link to job application posting:
+    <input required type="text" name="link"></label></p>
+</label></p>
+
+<p><label>Season:
+        <select required name="season">
+            <option value="">Choose</option>
+            <option value="spring">Spring</option>
+            <option value="summer">Summer</option>
+            <option value="fall">Fall</option>
+            <option value="winter">Winter</option>
+        </select>
+</label></p>
+
+<p>Role:</p>
+
+<div>
+    <input required type="checkbox" name="swe">
+    <label for="swe">Software Engineering</label>
+</div>
+<div>
+    <input required type="checkbox" name="data-science">
+    <label for="data-science">Data Science</label>
+</div>
+<div>
+    <input required type="checkbox" name="pm">
+    <label for="pm">Product Management</label>
+</div>
+<div>
+    <input required type="checkbox" name="program-management">
+    <label for="program-management">Program Management</label>
+</div>
+<div>
+    <input required type="checkbox" name="ux">
+    <label for="ux">User Experience (UX/UI)</label>
+</div>
+
+<p>Looking for:</p>
+
+<div>
+    <input required type="checkbox" name="freshman">
+    <label for="freshman">Freshman</label>
+</div>
+<div>
+    <input required type="checkbox" name="sophomore">
+    <label for="sophomore">Sophomore</label>
+</div>
+<div>
+    <input required type="checkbox" name="junior">
+    <label for="junior">Junior</label>
+</div>
+<div>
+    <input required type="checkbox" name="senior">
+    <label for="senior">Senior</label>
+</div>
+
+
+<p><input type="submit" value="Submit">
+</form>
+
+
+{% endblock %}
