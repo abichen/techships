@@ -26,6 +26,13 @@ def getByPosition(conn, position):
     where position = %s;''', [position])
     return curs.fetchall()
 
+def getByExperience(conn, exp)
+    '''Returns the link, cid, uid, position, season, experience, city, state, and country
+    of all applications needing specified experience/year, as a list of dictionaries.'''
+    curs = dbi.dict_cursor(conn)
+    curs.execute('''select * from application
+    where position FIND_IN_SET ('value', %s);''', [exp])
+    return curs.fetchall()
 
 
 
