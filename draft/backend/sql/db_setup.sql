@@ -28,7 +28,7 @@ create table application (
     cid int,
     uid varchar(15),
     position enum ('Software Engineering', 'Product Management', 'Project Management', 'Data Science', 'User Experience (UX/UI)'),
-    season set ('Spring', 'Summer', 'Fall', 'Winter'),
+    season set ('Fall 2020', 'Winter 2021', 'Fall 2021', 'Summer 2021'),
     experience set ('Freshman', 'Sophomore', 'Junior', 'Senior'),
     primary key (link),
     foreign key (uid) references user (uid)
