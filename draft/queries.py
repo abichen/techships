@@ -11,12 +11,20 @@ import cs304dbi as dbi
 # if it's a text field, then change this to inner join company and modify query
 def getByCompany(conn, cid):
     '''Returns the link, cid, uid, position, season, experience, city, state, and country
-    of all applications (positions?) for a specified company, as a list of dictionaries.'''
+    of all applications for a specified company, as a list of dictionaries.'''
     curs = dbi.dict_cursor(conn)
     curs.execute('''select * from application
     where cid = %s;''', [cid])
     return curs.fetchall()
 
+
+def getByPosition(conn, position):
+    '''Returns the link, cid, uid, position, season, experience, city, state, and country
+    of all applications for a specified position/role, as a list of dictionaries.'''
+    curs = dbi.dict_cursor(conn)
+    curs.execute('''select * from application
+    where position = %s;''', [position])
+    return curs.fetchall()
 
 
 
