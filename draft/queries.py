@@ -26,7 +26,7 @@ def getByPosition(conn, position):
     where position = %s;''', [position])
     return curs.fetchall()
 
-def getByExperience(conn, exp)
+def getByExperience(conn, exp):
     '''Returns the link, cid, uid, position, season, experience, city, state, and country
     of all applications needing specified experience/year, as a list of dictionaries.'''
     curs = dbi.dict_cursor(conn)
@@ -40,4 +40,10 @@ if __name__ == '__main__':
     dbi.cache_cnf()   # defaults to ~/.my.cnf
     dbi.use('techship_db') 
     conn = dbi.connect()
+    print("By Company:")
+    print(getByCompany(conn,2))
+    print("By Position:")
+    print(getByPosition(conn,"Software Engineering"))
+    print("By Experience:")
+    print(getByExperience(conn, "Senior"))
     # use for testing once our tables are populated
