@@ -1,6 +1,7 @@
 use techship_db;
 
-
+drop table if exists appLocation;
+drop table if exists location;
 drop table if exists application;
 drop table if exists user;
 drop table if exists company;
@@ -29,9 +30,6 @@ create table application (
     position enum ('Software Engineering', 'Product Management', 'Project Management', 'Data Science', 'User Experience (UX/UI)'),
     season set ('Spring', 'Summer', 'Fall', 'Winter'),
     experience set ('Freshman', 'Sophomore', 'Junior', 'Senior'),
-    city varchar(25),
-    state varchar(2),
-    country varchar (20),
     primary key (link),
     foreign key (uid) references user (uid)
         on update restrict,
@@ -39,4 +37,25 @@ create table application (
         on update restrict
         on delete restrict
 )
+engine = InnoDb;
+
+create table location (  
+    city varchar(25),
+    state varchar(2),
+    country varchar (20),
+    primary key (city)
+
+);
+
+create table appLocation(
+    city varchar(25),
+    link varchar(100),
+    foreign key(city) references location (city)
+        on update restrict
+        on delete restrict,
+    foreign key (link) references application (link)
+        on update restrict
+        on delete restrict
+)
+
 engine = InnoDb;
