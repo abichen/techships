@@ -62,8 +62,17 @@ def search():
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
-
+    conn = dbi.connect()
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user_exists = sqlHelper.userExists(conn, username, password)
+        if user_exists:
+            return redirect(url_for('/search'))
+        else:
+            flash('''Login failed. Invalid username or password.''')
+            return render_template('main.html')
+    
 @app.route('/register')
 def register():
     return render_template('register.html')

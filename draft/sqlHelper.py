@@ -71,6 +71,30 @@ def insertApplication(link,compName,role,season,year,experience): #add uid to th
                 year, experience])
     conn.commit()
 
+def userExists(conn, username, password):
+    '''Given username and password, checks if username + password combo
+    exist within database.'''
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    sql = '''select * from user where uid = %s and password1 = %s;'''
+    result = curs.execute(sql, [username, password])
+    if result == None:
+        return False
+    else:
+        return True 
+
+def register(conn, uid, password, email, school):
+    '''Insert movie into database with tt, title, and release year.'''
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    sql = "INSERT INTO user (uid, password, email, school) VALUES(%s, %s, %s, %s);"
+    curs.execute(sql, [uid, password, email, school])
+    conn.commit()
+
+
+
+
+
 if __name__ == '__main__':
     dbi.cache_cnf()   # defaults to ~/.my.cnf
     dbi.use('techship_db') 
