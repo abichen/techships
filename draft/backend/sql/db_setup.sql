@@ -25,7 +25,7 @@ create table application (
     link varchar(250),
     uid varchar(15),
     compName varchar(30),
-    role enum ('Software Engineering', 'Product Management', 'Project Management', 'Data Science', 'User Experience (UX/UI)', 'Hardware Engineering'),
+    role enum ('Software Engineering', 'Product Management', 'Program Management', 'Data Science', 'User Experience (UX/UI)', 'Hardware Engineering'),
     season set ('Fall', 'Winter', 'Spring', 'Summer'),
     yr char(4),
     experience set ('Freshman', 'Sophomore', 'Junior', 'Senior'),
