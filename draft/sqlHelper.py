@@ -39,10 +39,22 @@ def getByExperience(conn, exp):
     of all applications needing specified experience/year, as a list of dictionaries.'''
     curs = dbi.dict_cursor(conn)
     curs.execute('''select * from application
-    where experience FIND_IN_SET ('value', %s);''', [exp])
+    where experience = %s);''', [exp])
     return curs.fetchall()
 
+
+def companyExists(compName):
+    '''Given a company name, checks if it's already in the company table, 
+    returns a boolean'''
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    curs.execute('''select count(*) from company
+    where compName = %s;''',[compName])
+    result = curs.fetchone()
+    return result[0]==1
+
 def insertCompany(compName):
+    '''Given a company name, inserts it into the company table'''
     conn = dbi.connect()
     curs = dbi.cursor(conn)
     curs.execute('''INSERT INTO company(compName) 
