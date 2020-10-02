@@ -19,7 +19,12 @@ app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 
 @app.route('/')
 def index():
-    return render_template('main.html',title='Hello')
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+
+    internships = sqlHelper.getInternships(conn)
+
+    return render_template('main.html', internships = internships)
 
 @app.route('/upload/', methods=['GET','POST'])
 def upload():
@@ -33,20 +38,15 @@ def upload():
         role = request.form['role']
         seasonList = request.form.getlist('season')
         season= ','.join([str(elem) for elem in seasonList])
-        # print ("TEST: here is season list")
-        # print (seasonList)
-        # print ("TEST: here is season ")
-        # print (season)
         year = request.form['year']
         experienceList = request.form.getlist('experience')
         experience = ','.join([str(elem) for elem in experienceList])
-        # insert to database:
+
+        # Insert to database
         sqlHelper.insertCompany(compName)
         sqlHelper.insertApplication(link,compName,role,season,year,experience)
+
         return render_template('upload.html')
-
-
-        
 
 
 @app.before_first_request
