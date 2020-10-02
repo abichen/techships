@@ -16,17 +16,16 @@ CREATE TABLE user(
 );
 
 CREATE TABLE company(
-    cid int not null auto_increment,
     compName varchar(30),
     sponsorship tinyint,
-    primary key (cid)
-    
+    primary key compName
 );
 
 create table application (
     link varchar(100),
     cid int,
     uid varchar(15),
+    compName varchar(30),
     position enum ('Software Engineering', 'Product Management', 'Project Management', 'Data Science', 'User Experience (UX/UI)'),
     season set ('Fall 2020', 'Winter 2021', 'Fall 2021', 'Summer 2021'),
     yr char(4),
@@ -34,9 +33,12 @@ create table application (
     primary key (link),
     foreign key (uid) references user (uid)
         on update restrict,
-    foreign key (cid) references company (cid)
+    foreign key (compName) references company (compName)
         on update restrict
         on delete restrict
+     -- foreign key (cid) references company (cid)
+    --     on update restrict
+    --     on delete restrict,
 )
 engine = InnoDb;
 
