@@ -49,6 +49,17 @@ def upload():
 
         return render_template('upload.html')
 
+@app.route('/search', methods=['GET','POST'])
+def search():
+    conn = dbi.connect()
+    if request.method =='GET':
+        return render_template('search.html')
+    else:
+        role = request.form['role']
+        appsList = sqlHelper.getByRole(conn, role)
+        return render_template('searchResults.html', internships = appsList)
+
+
 @app.route('/login')
 def login():
     return render_template('login.html')
