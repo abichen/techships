@@ -18,12 +18,11 @@ CREATE TABLE user(
 CREATE TABLE company(
     compName varchar(30),
     sponsorship tinyint,
-    primary key compName
+    primary key (compName)
 );
 
 create table application (
     link varchar(100),
-    cid int,
     uid varchar(15),
     compName varchar(30),
     position enum ('Software Engineering', 'Product Management', 'Project Management', 'Data Science', 'User Experience (UX/UI)'),
