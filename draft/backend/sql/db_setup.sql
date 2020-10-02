@@ -35,9 +35,6 @@ create table application (
     foreign key (compName) references company (compName)
         on update restrict
         on delete restrict
-     -- foreign key (cid) references company (cid)
-    --     on update restrict
-    --     on delete restrict,
 )
 engine = InnoDb;
 
