@@ -43,7 +43,8 @@ def upload():
         experience = ','.join([str(elem) for elem in experienceList])
 
         # Insert to database
-        sqlHelper.insertCompany(compName)
+        if sqlHelper.companyExists(compName) == 0:
+            sqlHelper.insertCompany(compName)
         sqlHelper.insertApplication(link,compName,role,season,year,experience)
 
         return render_template('upload.html')
