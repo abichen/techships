@@ -32,10 +32,16 @@ def upload():
         role = request.form['role']
         seasonList = request.form.getlist('season')
         season= ','.join([str(elem) for elem in seasonList])
-        print ("TEST: here is season list")
-        print (seasonList)
-        print ("TEST: here is season ")
-        print (season)
+        # print ("TEST: here is season list")
+        # print (seasonList)
+        # print ("TEST: here is season ")
+        # print (season)
+        year = request.form['year']
+        experienceList = request.form.getlist('experience')
+        experience = ','.join([str(elem) for elem in experienceList])
+        # insert to database:
+        insertCompany(compName)
+        insertApplication(link,compName,role,season,year,experience)
         return render_template('upload.html')
 
 
