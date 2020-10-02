@@ -14,8 +14,8 @@ insert into company(compName) values ("Amazon");
 
 insert into company(compName) values ("Facebook");
 
-insert into application(link,uid,compName,position,season,yr,experience) values ("https://www.facebook.com/careers/jobs/322265018877764/","Facebook","testuser","User Experience (UX/UI)","Summer","2021","Junior");
+insert into application(link,compName,uid,position,season,yr,experience) values ("https://www.facebook.com/careers/jobs/322265018877764/","Facebook","testuser","User Experience (UX/UI)","Summer","2021","Junior");
 
-insert into application(link,uid,compName,position,season,yr,experience) values ("https://www.amazon.jobs/en/jobs/1204415/software-development-engineer-internship-summer-2021-us","Amazon","testuser","Software Engineering","Summer","2021","Senior");
+insert into application(link,compName,uid,position,season,yr,experience) values ("https://www.amazon.jobs/en/jobs/1204415/software-development-engineer-internship-summer-2021-us","Amazon","testuser","Software Engineering","Summer","2021","Senior");
 
-insert into application(link,cid,compName,position,season,yr,experience) values ("https://careers.google.com/jobs/results/100877793807475398-software-engineering-intern-associates-summer-2021/","Google","testuser","Software Engineering", "Winter", "2021", "Junior");
+insert into application(link,compName,uid,position,season,yr,experience) values ("https://careers.google.com/jobs/results/100877793807475398-software-engineering-intern-associates-summer-2021/","Google","testuser","Software Engineering", "Winter", "2021", "Junior");
