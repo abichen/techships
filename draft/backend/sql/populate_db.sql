@@ -39,4 +39,6 @@ insert into application(link,compName,uid,role,season,yr,experience) values ("ht
 insert into application(link,compName,uid,role,season,yr,experience) values ("https://boards.greenhouse.io/robinhood/jobs/2214472?t=PittCSC","Robinhood","testuser","Software Engineering","Summer","2021","Junior");
 insert into application(link,compName,uid,role,season,yr,experience) values ("https://jobs.jobvite.com/silabs/job/opymdfwg","Silicon Labs","testuser","Product Management","Summer","2021","Junior");
 insert into application(link,compName,uid,role,season,yr,experience) values ("https://careers.microsoft.com/students/us/en/job/870951/Internship-Opportunities-for-Students-Explore-Program","Microsoft","testuser","Software Engineering","Summer","2021","Sophomore");
+insert into application(link,compName,uid,role,season,yr,experience) values ("https://careers.google.com/jobs/results/93605726980580038-step-intern-second-year-student-summer-2021/","Google","testuser","Software Engineering", "Summer", "2021", "Sophomore");
+insert into application(link,compName,uid,role,season,yr,experience) values ("https://careers.google.com/jobs/results/73266706413167302-associate-product-manager-intern-summer-2021/?employment_type=INTERN&q=step","Google","testuser","Product Management", "Summer", "2021", "Junior");
 
