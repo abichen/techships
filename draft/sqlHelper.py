@@ -66,7 +66,7 @@ def insertApplication(link,compName,role,season,year,experience): #add uid to th
     application into the database.'''
     conn = dbi.connect()
     curs = dbi.cursor(conn)
-    curs.execute('''INSERT INTO application(link,compName, uid, role,season,yr,experience) 
+    curs.execute('''insert into application(link,compName, uid, role,season,yr,experience) 
                 values (%s, %s, %s, %s, %s, %s, %s);''', [link, compName, uid, role, season, 
                 year, experience])
     conn.commit()
@@ -83,14 +83,27 @@ def userExists(conn, username, password):
     else:
         return True 
 
-def register(conn, uid, password, email, school):
+def register(conn, username, password, email, school):
     '''Insert movie into database with tt, title, and release year.'''
     conn = dbi.connect()
     curs = dbi.cursor(conn)
-    sql = "INSERT INTO user (uid, password, email, school) VALUES(%s, %s, %s, %s);"
-    curs.execute(sql, [uid, password, email, school])
+    sql = '''insert into user (uid, password1, email, school) values(%s, %s, %s, %s);'''
+    curs.execute(sql, [username, password, email, school])
     conn.commit()
 
+def is_username_unique(conn, username):
+    '''Checks if username is unique while user is registering.'''
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    sql = '''select * from user where uid = %s;'''
+    result = curs.execute(sql, [username])
+    conn.commit()
+    if result == None: 
+        #username doesn't exist in db, so we can continue with registration
+        return True 
+    else:
+        return False 
+    
 
 
 
