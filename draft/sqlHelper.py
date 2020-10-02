@@ -43,14 +43,14 @@ def insertCompany(compName):
                 values (%s);''', [compName])
     conn.commit()
 
-def insertApplication(link,compName,position,season,yr,experience): #add uid to this once we implement login
+def insertApplication(link,compName,role,season,year,experience): #add uid to this once we implement login
     '''Given the link, compName, position, season, yr, experience, inserts an
     application into the database.'''
     conn = dbi.connect()
     curs = dbi.cursor(conn)
-    curs.execute('''INSERT INTO application(link,compName, uid, position,season,yr,experience) 
-                values (%s, %s, %s, %s, %s, %s, %s);''', [link, compName, uid, position, season, 
-                yr, experience])
+    curs.execute('''INSERT INTO application(link,compName, uid, role,season,yr,experience) 
+                values (%s, %s, %s, %s, %s, %s, %s);''', [link, compName, uid, role, season, 
+                year, experience])
     conn.commit()
 
 if __name__ == '__main__':
@@ -64,6 +64,6 @@ if __name__ == '__main__':
     print("By Experience:")
     # print(getByExperience(conn, "Senior"))
     # insertApplication("http://www.test.com","test","Data Science","Fall","2022","Freshman")
-    insertCompany("test2")
-    insertApplication("http://www.test2.com","test2","Data Science","Spring","2023","Freshman")
+    # insertCompany("test2")
+    # insertApplication("http://www.test2.com","test2","Data Science","Spring","2023","Freshman")
     # use for testing once our tables are populated
