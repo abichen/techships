@@ -48,6 +48,13 @@ def upload():
 
         return render_template('upload.html')
 
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
 
 @app.before_first_request
 def init_db():
