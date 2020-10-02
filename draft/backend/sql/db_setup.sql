@@ -22,7 +22,7 @@ CREATE TABLE company(
 );
 
 create table application (
-    link varchar(100),
+    link varchar(250),
     uid varchar(15),
     compName varchar(30),
     role enum ('Software Engineering', 'Product Management', 'Project Management', 'Data Science', 'User Experience (UX/UI)', 'Hardware Engineering'),
