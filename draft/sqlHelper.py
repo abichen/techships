@@ -34,7 +34,15 @@ def getByExperience(conn, exp):
     where position FIND_IN_SET ('value', %s);''', [exp])
     return curs.fetchall()
 
-
+def insertApplication(link,compName,position,season,yr,experience): #add uid to this once we implement login
+    '''Given the link, compName, position, season, yr, experience, inserts an
+    application into the database.'''
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    curs.execute('''INSERT INTO application(link,compName,position,season,yr,experience) 
+                values (%s, %s, %s, %s, %s, %s);''', [link, compName, position, season,
+                yr, experience])
+    conn.commit()
 
 if __name__ == '__main__':
     dbi.cache_cnf()   # defaults to ~/.my.cnf
