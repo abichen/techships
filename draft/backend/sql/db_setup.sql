@@ -26,7 +26,7 @@ create table application (
     uid varchar(15),
     compName varchar(30),
     position enum ('Software Engineering', 'Product Management', 'Project Management', 'Data Science', 'User Experience (UX/UI)'),
-    season set ('Fall 2020', 'Winter 2021', 'Fall 2021', 'Summer 2021'),
+    season set ('Fall', 'Winter', 'Spring', 'Summer'),
     yr char(4),
     experience set ('Freshman', 'Sophomore', 'Junior', 'Senior'),
     primary key (link),
