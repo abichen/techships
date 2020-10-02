@@ -25,7 +25,22 @@ def upload():
     # these forms go to the upload route
     if request.method == 'GET':
         return render_template('upload.html')
-    # elif request.method == 'POST':
+
+    else:
+        compName = request.form['compName']
+        link = request.form['link']
+        role = request.form['role']
+        seasonList = request.form.getlist('season')
+        season = seasonList.join(',')
+        print ("TEST: here is season list")
+        print (seasonList)
+        print ("TEST: here is season ")
+        print (season)
+        return render_template('upload.html')
+
+
+        
+
 
 @app.before_first_request
 def init_db():
