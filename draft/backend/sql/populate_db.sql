@@ -20,6 +20,8 @@ insert into company(compName) values ("Twitch");
 insert into company(compName) values ("Robinhood");
 insert into company(compName) values ("Silicon Labs");
 insert into company(compName) values ("Microsoft");
+insert into company(compName) values ("Siemens");
+insert into company(compName) values ("IBM");
 
 -- Application
 insert into application(link,compName,uid,role,season,yr,experience) values ("https://www.facebook.com/careers/jobs/322265018877764/","Facebook","testuser","User Experience (UX/UI)","Summer","2021","Junior");
@@ -42,3 +44,9 @@ insert into application(link,compName,uid,role,season,yr,experience) values ("ht
 insert into application(link,compName,uid,role,season,yr,experience) values ("https://careers.google.com/jobs/results/93605726980580038-step-intern-second-year-student-summer-2021/","Google","testuser","Software Engineering", "Summer", "2021", "Sophomore");
 insert into application(link,compName,uid,role,season,yr,experience) values ("https://careers.google.com/jobs/results/73266706413167302-associate-product-manager-intern-summer-2021/?employment_type=INTERN&q=step","Google","testuser","Product Management", "Summer", "2021", "Junior");
 
+
+insert into application(link,compName,uid,role,season,yr,experience) values ("https://jobs.siemens.com/jobs/223359?lang=en-us&previousLocale=en-US","Siemens","testuser","Program Management", "Winter", "2021", "Junior");
+insert into application(link,compName,uid,role,season,yr,experience) values ("https://ibm.dejobs.org/philadelphia-pa/extreme-blue-technical-leadership-program-product-management-intern/7f170b2f2d744708bb2f79cd3bd2356f/job/?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic","IBM","testuser","Product Management", "Summer", "2021", "Junior");
+insert into application(link,compName,uid,role,season,yr,experience) values ("https://ibm.dejobs.org/philadelphia-pa/design-researchux-research-sr-intern-2021-cio/80EBEF434FE643489C4E7353CAA3CBE2/job/?utm_campaign=google_jobs_apply&utm_medium=organic&utm_source=google_jobs_apply","IBM","testuser","User Experience (UX/UI)", "Summer", "2021", "Sophomore");
+insert into application(link,compName,uid,role,season,yr,experience) values ("https://www.themuse.com/jobs/amazon/data-science-intern?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic","Amazon","testuser","Data Science", "Winter", "2021", "Junior");
+insert into application(link,compName,uid,role,season,yr,experience) values ("https://www.facebook.com/careers/jobs/787113335390807/?utm_campaign=google_jobs_apply&utm_source=google_jobs_apply&utm_medium=organic","Facebook","testuser","Data Science", "Summer", "2021", "Junior");
