@@ -3,6 +3,7 @@ from flask import (Flask, render_template, make_response, url_for, request,
 from werkzeug.utils import secure_filename
 import random
 import cs304dbi as dbi
+import sqlHelper
 
 app = Flask(__name__)
 
@@ -40,8 +41,8 @@ def upload():
         experienceList = request.form.getlist('experience')
         experience = ','.join([str(elem) for elem in experienceList])
         # insert to database:
-        insertCompany(compName)
-        insertApplication(link,compName,role,season,year,experience)
+        sqlHelper.insertCompany(compName)
+        sqlHelper.insertApplication(link,compName,role,season,year,experience)
         return render_template('upload.html')
 
 
