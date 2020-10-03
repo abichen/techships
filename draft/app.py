@@ -46,7 +46,7 @@ def upload():
         if sqlHelper.companyExists(compName) == 0:
             sqlHelper.insertCompany(compName)
         sqlHelper.insertApplication(link,compName,role,season,year,experience)
-
+        flash('Internship at ' + compName + ' was uploaded successfully')
         return render_template('upload.html')
 
 @app.route('/search', methods=['GET','POST'])
