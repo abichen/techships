@@ -80,7 +80,7 @@ def login():
     else:
         return render_template('login.html')
         
-@app.route('/register')
+@app.route('/register', methods = ['GET','POST'])
 def register():
     conn = dbi.connect()
     error = None
@@ -89,6 +89,7 @@ def register():
         password = request.form['password']
         email = request.form['email']
         school = request.form['school']
+        print(username, password, email, school)
 
         if not username:
             error = 'Username is required.'
@@ -101,15 +102,25 @@ def register():
             flash(error)
         else:
             #Check for username eligibility
-            is_username_unique = sqlHelper.is_unique_username(conn,username)
-            if is_username_unique:
-                sqlHelper.register(conn, username, password, email, school)
-                return redirect(url_for('login'))
+            is_username_unique = sqlHelper.is_username_unique(conn,username)
+            if is_username_unique == True:
+                try:
+                    sqlHelper.register(conn, username, password, email, school)
+                    return redirect(url_for('search'))
+                except:
+                    error = '''This user is already registered. 
+                    Please pick a new username'''
+                    flash(error)
+                    return render_template('register.html')
+
             else:
                 error = '''This username is already taken. 
                 Please pick a new username'''
                 flash(error)
                 return render_template('register.html')
+                
+    else:
+        return render_template('register.html')
 
 @app.before_first_request
 def init_db():

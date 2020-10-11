@@ -101,9 +101,9 @@ def is_username_unique(conn, username):
     conn.commit()
     if result == None: 
         #username doesn't exist in db, so we can continue with registration
-        return True 
+        return False
     else:
-        return False 
+        return True
     
 
 
@@ -123,4 +123,3 @@ if __name__ == '__main__':
     # insertCompany("test2")
     # insertApplication("http://www.test2.com","test2","Data Science","Spring","2023","Freshman")
     # use for testing once our tables are populated
-    userExists(conn, "wabil", "fhgjkdjfhgdf")
