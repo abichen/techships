@@ -27,7 +27,7 @@ def index():
 @app.route('/upload/', methods=['GET','POST'])
 def upload():
     uid = session['uid']
-    # these forms go to the upload route
+    # These forms go to the upload route
     if request.method == 'GET':
         return render_template('upload.html')
 
@@ -49,7 +49,7 @@ def upload():
             flash('Internship at ' + compName + ' was uploaded successfully')
             return render_template('upload.html')
         
-        #Else, user must log in to upload
+        #User must login before uploading 
         else:
             flash('You must be logged in to upload information.')
             return redirect(url_for('index'))
