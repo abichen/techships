@@ -26,11 +26,13 @@ def index():
 
 @app.route('/upload/', methods=['GET','POST'])
 def upload():
+    uid = session['uid']
     # these forms go to the upload route
     if request.method == 'GET':
         return render_template('upload.html')
 
     else:
+       if 'uid' in session:
         compName = request.form['compName']
         link = request.form['link']
         role = request.form['role']
@@ -46,6 +48,11 @@ def upload():
         sqlHelper.insertApplication(link,compName,role,season,year,experience)
         flash('Internship at ' + compName + ' was uploaded successfully')
         return render_template('upload.html')
+        
+        #Else, user must log in to upload
+        else:
+            flash('You must be logged in to upload information.')
+            return redirect(url_for('index'))
 
 @app.route('/search', methods=['GET','POST'])
 def search():
@@ -57,20 +64,15 @@ def search():
         appsList = sqlHelper.getByRole(conn, role)
         return render_template('searchResults.html', internships = appsList)
 
-
 @app.route('/login', methods = ['GET','POST'])
 def login():
     conn = dbi.connect()
-    # if request.method == "GET":
-    #     print("GET!!!!!!!!!!!!!")
-    #     return render_template('login.html')
     if request.method == "POST":
-        print("POST!!!!!!!!!!  ")
         username = request.form['username']
         password = request.form['password']
-        print(username, password)
         user_exists = sqlHelper.validateLogin(conn, username, password)
         if user_exists:
+            session['uid'] = request.form.get('uid')
             return redirect(url_for('search'))
         else:
             flash('''Login failed. Invalid username or password.''')
@@ -88,6 +90,7 @@ def register():
         email = request.form['email']
         school = request.form['school']
 
+        #Validate username, pw, email entries
         if not username:
             error = 'Username is required.'
             flash(error)
@@ -98,8 +101,9 @@ def register():
             error = 'Email is required.'
             flash(error)
         else:
-            #Check for username uniqueness, register if it is unique
             is_username_unique = sqlHelper.is_username_unique(conn,username)
+            
+            #Check for username uniqueness, register if it is unique
             if is_username_unique == True:
                 try:
                     sqlHelper.register(conn, username, password, email, school)
@@ -113,11 +117,13 @@ def register():
                 Please pick a new username'''
                 flash(error)
                 return render_template('register.html')            
+    
     else:
         return render_template('register.html')
 
 @app.route("/logout")
 def logout():
+    uid = session['uid']
     session.pop('user', None)
     return redirect(url_for('index'))
 
