@@ -1,6 +1,5 @@
 # Techships 
 # queries
-
 import cs304dbi as dbi
 
 uid = "testuser" #for now, until we implement logins
@@ -25,7 +24,6 @@ def getByCompany(conn, compName):
     where compName = %s;''', [compName])
     return curs.fetchall()
 
-
 def getByRole(conn, role):
     '''Returns the link, cid, uid, role, season, experience, city, state, and country
     of all applications for a specified role, as a list of dictionaries.'''
@@ -41,7 +39,6 @@ def getByExperience(conn, exp):
     curs.execute('''select * from application
     where experience = %s);''', [exp])
     return curs.fetchall()
-
 
 def companyExists(compName):
     '''Given a company name, checks if it's already in the company table, 
@@ -105,9 +102,6 @@ def is_username_unique(conn, username):
     else:
         return True
     
-
-
-
 
 if __name__ == '__main__':
     dbi.cache_cnf()   # defaults to ~/.my.cnf

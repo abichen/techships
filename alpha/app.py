@@ -21,9 +21,7 @@ app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 def index():
     conn = dbi.connect()
     curs = dbi.cursor(conn)
-
     internships = sqlHelper.getInternships(conn)
-
     return render_template('main.html', internships = internships)
 
 @app.route('/upload/', methods=['GET','POST'])
@@ -89,7 +87,6 @@ def register():
         password = request.form['password']
         email = request.form['email']
         school = request.form['school']
-        print(username, password, email, school)
 
         if not username:
             error = 'Username is required.'
@@ -101,26 +98,28 @@ def register():
             error = 'Email is required.'
             flash(error)
         else:
-            #Check for username eligibility
+            #Check for username uniqueness, register if it is unique
             is_username_unique = sqlHelper.is_username_unique(conn,username)
             if is_username_unique == True:
                 try:
                     sqlHelper.register(conn, username, password, email, school)
                     return redirect(url_for('search'))
                 except:
-                    error = '''This user is already registered. 
-                    Please pick a new username'''
+                    error = '''This user is already registered.'''
                     flash(error)
                     return render_template('register.html')
-
             else:
                 error = '''This username is already taken. 
                 Please pick a new username'''
                 flash(error)
-                return render_template('register.html')
-                
+                return render_template('register.html')            
     else:
         return render_template('register.html')
+
+@app.route("/logout")
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('index'))
 
 @app.before_first_request
 def init_db():
