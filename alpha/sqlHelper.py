@@ -68,6 +68,20 @@ def insertApplication(link,compName,uid,role,season,year,experience): #add uid t
                 year, experience])
     conn.commit()
 
+def handleFavorite(uid, link):
+    '''Adds application to users' list of favorites, or removes if needed'''
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    #if link is in users' list, remove it
+    #otherwise, add it 
+
+# def removeFavorite(uid, link):
+#     '''Removes application from users' list of favorites'''
+#     conn = dbi.connect()
+#     curs = dbi.cursor(conn)
+#     pass
+
+
 def validateLogin(conn, username, password):
     '''Given username and password, checks if username + password combo
     exist within database.'''

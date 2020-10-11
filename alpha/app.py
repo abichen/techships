@@ -68,6 +68,17 @@ def search():
         appsList = sqlHelper.getByRole(conn, role)
         return render_template('searchResults.html', internships = appsList)
 
+@app.route('/favorite', methods=['POST'])
+def favorite():
+    '''Adds or removes application from list of favorites when button is clicked.'''
+    ###This should be done with Ajax so we don't have to reload the entire page.
+    conn = dbi.connect()
+    if request.method =='POST':
+        fixFavorite = sqlHelper.handleFavorite(uid, link)
+    else:
+        pass 
+
+
 @app.route('/login', methods = ['GET','POST'])
 def login():
     '''Displays login page, and redirects to search page after user logs in successfully.'''
