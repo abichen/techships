@@ -32,22 +32,22 @@ def upload():
         return render_template('upload.html')
 
     else:
-       if 'uid' in session:
-        compName = request.form['compName']
-        link = request.form['link']
-        role = request.form['role']
-        seasonList = request.form.getlist('season')
-        season= ','.join([str(elem) for elem in seasonList])
-        year = request.form['year']
-        experienceList = request.form.getlist('experience')
-        experience = ','.join([str(elem) for elem in experienceList])
+        if 'uid' in session:
+            compName = request.form['compName']
+            link = request.form['link']
+            role = request.form['role']
+            seasonList = request.form.getlist('season')
+            season= ','.join([str(elem) for elem in seasonList])
+            year = request.form['year']
+            experienceList = request.form.getlist('experience')
+            experience = ','.join([str(elem) for elem in experienceList])
 
-        # Insert to database
-        if sqlHelper.companyExists(compName) == 0:
-            sqlHelper.insertCompany(compName)
-        sqlHelper.insertApplication(link,compName,role,season,year,experience)
-        flash('Internship at ' + compName + ' was uploaded successfully')
-        return render_template('upload.html')
+            # Insert to database
+            if sqlHelper.companyExists(compName) == 0:
+                sqlHelper.insertCompany(compName)
+            sqlHelper.insertApplication(link,compName,role,season,year,experience)
+            flash('Internship at ' + compName + ' was uploaded successfully')
+            return render_template('upload.html')
         
         #Else, user must log in to upload
         else:
