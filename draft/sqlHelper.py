@@ -106,8 +106,6 @@ def is_username_unique(conn, username):
     
 
 
-
-
 if __name__ == '__main__':
     dbi.cache_cnf()   # defaults to ~/.my.cnf
     dbi.use('techship_db') 
