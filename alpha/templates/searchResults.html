@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<h1>The results of your search</h1>
+
+<h2>For students, by students.</h2>
+
+<p>Use this database to share and keep track of any tech-related internships!</p>
+
+<table> 
+    <thead> 
+    <tr> 
+        <th>Company</th> 
+        <th>Role</th> 
+        <th>Season</th> 
+        <th>Year</th> 
+        <th>Experience</th> 
+    </tr> 
+    </thead> 
+    <tbody> 
+        {% for internship in internships %}  
+            <tr> 
+                <td>{{ internship.compName }}</td> 
+                <td><a href ="{{ internship.link }}">{{internship.role }}</a></td> 
+                <td>{{ internship.season }}</td>
+                <td>{{ internship.yr }}</td>
+                <td>{{ internship.experience }}</td>
+            </tr> 
+        {% endfor %} 
+    </tbody> 
+</table> 
+
+{% endblock %}
