@@ -26,6 +26,7 @@ def index():
 
 @app.route('/upload/', methods=['GET','POST'])
 def upload():
+    conn = dbi.connect()
     uid = session['uid']
     # These forms go to the upload route
     if request.method == 'GET':
