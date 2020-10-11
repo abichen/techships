@@ -69,7 +69,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         print(username, password)
-        user_exists = sqlHelper.userExists(conn, username, password)
+        user_exists = sqlHelper.validateLogin(conn, username, password)
         if user_exists:
             return redirect(url_for('search'))
         else:

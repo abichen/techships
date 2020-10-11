@@ -58,7 +58,7 @@ def insertCompany(compName):
                 values (%s);''', [compName])
     conn.commit()
 
-def insertApplication(link,compName,role,season,year,experience): #add uid to this once we implement login
+def insertApplication(link,compName,uid,role,season,year,experience): #add uid to this once we implement login
     '''Given the link, compName, role, season, yr, experience, inserts an
     application into the database.'''
     conn = dbi.connect()
@@ -68,7 +68,7 @@ def insertApplication(link,compName,role,season,year,experience): #add uid to th
                 year, experience])
     conn.commit()
 
-def userExists(conn, username, password):
+def validateLogin(conn, username, password):
     '''Given username and password, checks if username + password combo
     exist within database.'''
     conn = dbi.connect()
