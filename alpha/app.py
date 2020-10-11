@@ -60,19 +60,26 @@ def search():
         return render_template('searchResults.html', internships = appsList)
 
 
-@app.route('/login')
+@app.route('/login', methods = ['GET','POST'])
 def login():
     conn = dbi.connect()
-    if request.method == 'POST':
+    # if request.method == "GET":
+    #     print("GET!!!!!!!!!!!!!")
+    #     return render_template('login.html')
+    if request.method == "POST":
+        print("POST!!!!!!!!!!  ")
         username = request.form['username']
         password = request.form['password']
+        print(username, password)
         user_exists = sqlHelper.userExists(conn, username, password)
         if user_exists:
-            return redirect(url_for('/search'))
+            return redirect(url_for('search'))
         else:
             flash('''Login failed. Invalid username or password.''')
             return render_template('main.html')
-    
+    else:
+        return render_template('login.html')
+        
 @app.route('/register')
 def register():
     conn = dbi.connect()

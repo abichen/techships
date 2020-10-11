@@ -78,6 +78,7 @@ def userExists(conn, username, password):
     curs = dbi.cursor(conn)
     sql = '''select * from user where uid = %s and password1 = %s;'''
     result = curs.execute(sql, [username, password])
+    print(result)
     if result == None:
         return False
     else:
@@ -122,3 +123,4 @@ if __name__ == '__main__':
     # insertCompany("test2")
     # insertApplication("http://www.test2.com","test2","Data Science","Spring","2023","Freshman")
     # use for testing once our tables are populated
+    userExists(conn, "wabil", "fhgjkdjfhgdf")
