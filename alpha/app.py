@@ -19,6 +19,7 @@ app.config['TRAP_BAD_REQUEST_ERRORS'] = True
 
 @app.route('/')
 def index():
+    '''Displays home page with most recent database.'''
     conn = dbi.connect()
     curs = dbi.cursor(conn)
     internships = sqlHelper.getInternships(conn)
@@ -26,6 +27,7 @@ def index():
 
 @app.route('/upload/', methods=['GET','POST'])
 def upload():
+    '''Displays upload page, and allows user to submit an internship link to database.'''  
     conn = dbi.connect()
     uid = session['uid']
     # These forms go to the upload route
@@ -57,6 +59,7 @@ def upload():
 
 @app.route('/search', methods=['GET','POST'])
 def search():
+    '''Displays search page, and then filters results based on user-given criteria.'''  
     conn = dbi.connect()
     if request.method =='GET':
         return render_template('search.html')
@@ -67,6 +70,7 @@ def search():
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
+'''Displays login page, and redirects to search page after user logs in successfully.'''  
     conn = dbi.connect()
     if request.method == "POST":
         username = request.form['username']
@@ -80,8 +84,10 @@ def login():
             return render_template('main.html')
     else:
         return render_template('login.html')
-        
+
+  
 @app.route('/register', methods = ['GET','POST'])
+'''Displays register page, and redirects to search page after registration.'''  
 def register():
     conn = dbi.connect()
     error = None
