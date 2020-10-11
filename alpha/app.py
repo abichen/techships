@@ -70,7 +70,7 @@ def search():
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
-'''Displays login page, and redirects to search page after user logs in successfully.'''  
+    '''Displays login page, and redirects to search page after user logs in successfully.'''
     conn = dbi.connect()
     if request.method == "POST":
         username = request.form['username']
@@ -87,8 +87,8 @@ def login():
 
   
 @app.route('/register', methods = ['GET','POST'])
-'''Displays register page, and redirects to search page after registration.'''  
 def register():
+    '''Displays register page, and redirects to search page after registration.'''  
     conn = dbi.connect()
     error = None
     if request.method == 'POST':
