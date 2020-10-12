@@ -31,6 +31,8 @@ def upload():
     conn = dbi.connect()
     #uid = session['uid']
     # These forms go to the upload route
+    print("!!!!!TEST!!!!!")
+    print(session['uid'])
     if (session['uid']): #if it exists
         if request.method == 'GET':
             return render_template('upload.html')
@@ -88,7 +90,7 @@ def login():
         password = request.form['password']
         user_exists = sqlHelper.validateLogin(conn, username, password)
         if user_exists:
-            session['uid'] = request.form.get('uid')
+            session['uid'] = request.form['username']
             return redirect(url_for('search'))
         else:
             flash('''Login failed. Invalid username or password.''')
