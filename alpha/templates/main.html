@@ -8,7 +8,7 @@
 
 <p>Use this database to share and keep track of any tech-related internships!</p>
 
-<table>
+<table id = "job-list">
     <thead>
         <tr>
             <th>Company</th>
@@ -20,14 +20,14 @@
     </thead>
     <tbody>
         {% for internship in internships %}
-        <tr>
+        <tr data-tt="{{ internship.link }}">
             <!-- <button type="button">Favorite</button> -->
             <td>{{ internship.compName }}</td>
             <td><a href="{{ internship.link }}">{{internship.role }}</a></td>
             <td>{{ internship.season }}</td>
             <td>{{ internship.yr }}</td>
             <td>{{ internship.experience }}</td>
-            <td><form class="favourite-form" method="post">
+            <td><form class="favorite-form" method="post">
                 <input type="submit" name="submit" value="favorite" />
               </form></td>
         </tr>
