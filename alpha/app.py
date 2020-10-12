@@ -31,9 +31,7 @@ def upload():
     conn = dbi.connect()
     #uid = session['uid']
     # These forms go to the upload route
-    print("!!!!!TEST!!!!!")
-    print(session['uid'])
-    if (session['uid']): #if it exists
+    if (session.get('uid')): #if it exists
         if request.method == 'GET':
             return render_template('upload.html')
 
@@ -145,6 +143,7 @@ def register():
 def logout():
     uid = session['uid']
     session.pop('uid', None)
+    session['uid'] = None
     return redirect(url_for('index'))
 
 @app.before_first_request
