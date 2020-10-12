@@ -144,7 +144,7 @@ def register():
 @app.route("/logout")
 def logout():
     uid = session['uid']
-    session.pop('user', None)
+    session.pop('uid', None)
     return redirect(url_for('index'))
 
 @app.before_first_request
