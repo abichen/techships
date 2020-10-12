@@ -1,5 +1,6 @@
 use techship_db;
 
+drop table if exists favorites;
 drop table if exists appLocation;
 drop table if exists location;
 drop table if exists application;
@@ -55,6 +56,17 @@ create table appLocation(
     foreign key (link) references application (link)
         on update restrict
         on delete restrict
+)
+
+engine = InnoDb;
+
+create table favorites(
+    link varchar(250),
+    uid varchar(15),
+    foreign key (uid) references user (uid)
+        on update restrict,
+    foreign key (link) references application (link)
+        on update restrict
 )
 
 engine = InnoDb;
