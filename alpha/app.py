@@ -29,13 +29,13 @@ def index():
 def upload():
     '''Displays upload page, and allows user to submit an internship link to database.'''  
     conn = dbi.connect()
-    uid = session['uid']
+    #uid = session['uid']
     # These forms go to the upload route
-    if request.method == 'GET':
-        return render_template('upload.html')
+    if (session['uid']): #if it exists
+        if request.method == 'GET':
+            return render_template('upload.html')
 
-    else:
-        if 'uid' in session:
+        else:
             compName = request.form['compName']
             link = request.form['link']
             role = request.form['role']
@@ -53,9 +53,9 @@ def upload():
             return render_template('upload.html')
         
         #User must login before uploading 
-        else:
-            flash('You must be logged in to upload information.')
-            return redirect(url_for('index'))
+    else:
+        flash('You must be logged in to upload information.')
+        return redirect(url_for('index'))
 
 @app.route('/search', methods=['GET','POST'])
 def search():
