@@ -69,6 +69,19 @@ def search():
         appsList = sqlHelper.getByRole(conn, role)
         return render_template('searchResults.html', internships = appsList)
 
+@app.route('/searchExp', methods = ['POST']) 
+def searchExp():
+    conn = dbi.connect()
+    if request.method == 'POST':
+        exp = request.form['experience']
+        print("TEST!!!")
+        print(exp)
+        appsList = sqlHelper.getByExperience(conn, exp)
+        return render_template('searchResults.html', internships = appsList)
+    else:
+        return render_template('search.html')
+
+
 @app.route('/favorite/', methods=['POST'])
 def favorite():
     '''Adds or removes application from list of favorites when button is clicked.'''
