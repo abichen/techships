@@ -28,7 +28,10 @@
             <td>{{ internship.yr }}</td>
             <td>{{ internship.experience }}</td>
             <td><form class="favorite-form" method="post" action="/favorite">
-                <input type="submit" name="submit" value="favorite" />
+                <label class="star">
+                    <i class="fa fa-star"><input type="hidden" name="favbutton" value="0"></i>
+                </label>
+                <input type="submit" name="submit" value="favorite"/>
               </form></td>
         </tr>
         {% endfor %}

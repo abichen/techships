@@ -1,7 +1,6 @@
 
 //handleFavorite.js contains jQuery to handle events when user tries to favorite or unfavorite item
 
-var progressive_on = false;
 
 ////THIS IS ALL USELESS CODE!!!!! but saving it here to help with logic since its similar
 
@@ -15,14 +14,16 @@ var progressive_on = false;
 //     $.post('/rateMovieAjax', { 'tt': tt, 'rating': ratingVal }, updateSingleRating);
 // });
 
+$("input[type=submit]").hide();
 
 var fav_url = "{{url_for('favorite')}}";
 
 // delegated event handler
 $("#job-list").on('click','input', function (event) {
+    $(this).css('color','orange');
     var link = $(this).closest('tr').attr('data-tt');
     console.log(link);
-    $(this).css('background-color', '#4CAF50');
+    // $(this).css('background-color', '#4CAF50');
     $.post(fav_url, {'link' : link}, updateSingleJob);
 });
 
