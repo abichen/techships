@@ -2,6 +2,12 @@
 
 {% block main_content %}
 
+<style>
+    .checked {
+        color: orange;
+    }
+</style>
+
 <h1>My saved internships</h1>
 
 <table class="center">
@@ -14,7 +20,7 @@
             <th>Experience</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="saved-list">
         {% for internship in internships %}
         <tr>
             <td>{{ internship.compName }}</td>
@@ -23,7 +29,11 @@
             <td>{{ internship.yr }}</td>
             <td>{{ internship.experience }}</td>
             <td><form class="favorite-form" method="post" action="/favorite">
-                <input type="submit" name="submit" value="favorite" />
+                <label class="star">
+                    <i class="fa fa-star checked"> Remove</i>
+                    <input type="hidden" class="favbutton" value="0">
+                </label>
+                <input type="submit" name="submit" value="favorite"/>
               </form></td>
         </tr>
         {% endfor %}

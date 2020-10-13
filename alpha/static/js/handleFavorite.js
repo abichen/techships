@@ -23,8 +23,19 @@ $("#job-list").on('click','i', function (event) {
     $(this).closest('i').css('color','orange');
     var link = $(this).closest('tr').attr('data-tt');
     console.log(link);
+    var fave = 0;
     // $(this).css('background-color', '#4CAF50');
-    $.post(fav_url, {'link' : link}, updateSingleJob);
+    $.post(fav_url, {'link' : link,'fave':fave }, updateSingleJob);
+});
+
+// for saved list
+$("#saved-list").on('click','i', function (event) {
+    $(this).closest('i').css('color','grey');
+    var link = $(this).closest('tr').attr('data-tt');
+    var fave = 1;
+    console.log(link);
+    // $(this).css('background-color', '#4CAF50');
+    $.post(fav_url, {'link' : link, 'fave':fave}, updateSingleJob);
 });
 
 
@@ -32,7 +43,7 @@ function updateSingleJob(resp) {
     var link = resp.link;
     console.log('response is',resp);
     // $('data-tt=' + link).find('.favorite-form').find('i').css('color','orange');
-    $('[data-tt=' + link + ']').find('.favbutton').value(1);
+    // $('[data-tt=' + link + ']').find('.favbutton').value(1);
 };
 
 //helper function to display new average rating

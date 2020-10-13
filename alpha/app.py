@@ -79,11 +79,16 @@ def favorite():
         # Get data from form: 
         data = request.form
         link = data['link']
+        fave = data['fave']
         print('Link:' + link)
+        print('Fave:' + fave)
         # Update database
-        sqlHelper.handleFavorite(uid, link)
+        if fave == 0:
+            sqlHelper.handleFavorite(uid, link)
+        else:
+            sqlHelper.removeFavorite(uid,link)
         # response dictionary
-        resp_dic = {'link': link}
+        resp_dic = {'link': link, 'fave': fave}
         print("respLink:" + resp_dic['link'])
         return jsonify(resp_dic)
     else:
