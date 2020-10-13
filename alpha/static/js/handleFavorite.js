@@ -7,21 +7,39 @@ var progressive_on = false;
 
 //get value of rating clicked and send post request with
 //tt and rating value
-$('#movies-list').on('click', 'input[name=stars]', function (evt) {
-    if (!progressive_on) return;
-    var tt = $(this).closest('tr').attr('data-tt');
-    var ratingVal = $(this).attr('value');
-    $(this).css('font-weight', 'bold');
-    $.post('/rateMovieAjax', { 'tt': tt, 'rating': ratingVal }, updateSingleRating);
+// $('#movies-list').on('click', 'input[name=stars]', function (evt) {
+//     if (!progressive_on) return;
+//     var tt = $(this).closest('tr').attr('data-tt');
+//     var ratingVal = $(this).attr('value');
+//     $(this).css('font-weight', 'bold');
+//     $.post('/rateMovieAjax', { 'tt': tt, 'rating': ratingVal }, updateSingleRating);
+// });
+
+
+var fav_url = "{{url_for('favorite')}}";
+
+// delegated event handler
+$("#job-list").on('click','input', function (event) {
+    var link = $(this).closest('tr').attr('data-tt');
+    console.log(link);
+    $(this).css('background-color', '#4CAF50');
+    $.post(fav_url, {'link' : link}, updateSingleJob);
 });
 
-//helper function to display new average rating
-function updateSingleRating(resp) {
-    var tt = resp['tt'];
-    var updatedRating = resp['avgRating'];
-    $('[data-tt=' + tt + ']')
-        .find('.avgrating').text(updatedRating);
+
+function updateSingleJob(resp) {
+    var link = resp['link'];
+    $('[data-tt=' + link + ']')
+        .attr('.submit').css('background-color','4CAF50');
 };
+
+//helper function to display new average rating
+// function updateSingleRating(resp) {
+//     var tt = resp['tt'];
+//     var updatedRating = resp['avgRating'];
+//     $('[data-tt=' + tt + ']')
+//         .find('.avgrating').text(updatedRating);
+// };
 
 //button to turn progressive enhancement on/off
 $("#progressive_enhancement").on('click', function () {
