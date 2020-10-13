@@ -35,7 +35,7 @@ $("#saved-list").on('click','i', function (event) {
     var fave = 1;
     console.log(link);
     // $(this).css('background-color', '#4CAF50');
-    $.post(fav_url, {'link' : link, 'fave':fave}, updateSingleJob);
+    $.post(saved_url, {'link' : link, 'fave':fave}, updateSingleJob);
 });
 
 

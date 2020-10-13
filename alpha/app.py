@@ -96,17 +96,38 @@ def favorite():
         flash('You must be logged in to add to your favorites.')
         return redirect(url_for('index'))
 
+
 @app.route('/saved', methods=['GET','POST'])
 def saved():
     conn = dbi.connect()
-    if (session.get('uid')): #if it exists
-        uid = session['uid']
-        if request.method == "GET":
-            saved = sqlHelper.getFavorites(conn, uid)
-            return render_template('saved.html', internships = saved)
+    if request.method == 'GET':
+        if (session.get('uid')): #if it exists
+            uid = session['uid']
+            if request.method == "GET":
+                saved = sqlHelper.getFavorites(conn, uid)
+                return render_template('saved.html', internships = saved)
+        else:
+            flash('You must be logged in to add to your favorites.')
+            return redirect(url_for('index'))
     else:
-        flash('You must be logged in to add to your favorites.')
-        return redirect(url_for('index'))
+        if (session.get('uid')): #if it exists
+            uid = session['uid']
+            # Get data from form: 
+            data = request.form
+            link = data['link']
+            fave = data['fave']
+            print('Link:' + link)
+            print('Fave:' + fave)
+            # Update database
+            # remove from favs
+            sqlHelper.removeFavorite(uid, link)
+            # response dictionary
+            resp_dic = {'link': link, 'fave': fave}
+            print("respLink:" + resp_dic['link'])
+            return jsonify(resp_dic)
+    
+
+
 @app.route('/login', methods = ['GET','POST'])
 def login():
     '''Displays login page, and redirects to search page after user logs in successfully.'''
