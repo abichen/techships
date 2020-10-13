@@ -125,3 +125,6 @@ nav button:hover, button:focus, nav a:hover, nav a:focus {
     color: var(--color-subheader);
 }
 
+/* .fa {
+    font-family: var(--font-family);
+} */
