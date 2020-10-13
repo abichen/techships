@@ -86,6 +86,7 @@ def favorite():
         return jsonify(resp_dic)
     else:
         flash('You must be logged in to add to your favorites.')
+        return redirect(url_for('index'))
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
