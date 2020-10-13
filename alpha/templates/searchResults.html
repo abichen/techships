@@ -2,13 +2,9 @@
 
 {% block main_content %}
 
-<h1>The results of your search</h1>
+<h1>Your search results for</h1>
 
-<h2>For students, by students.</h2>
-
-<p>Use this database to share and keep track of any tech-related internships!</p>
-
-<table>
+<table class="center">
     <thead>
         <tr>
             <th>Company</th>
@@ -21,12 +17,14 @@
     <tbody>
         {% for internship in internships %}
         <tr>
-            <button type="button">Favorite</button>
             <td>{{ internship.compName }}</td>
             <td><a href="{{ internship.link }}">{{internship.role }}</a></td>
             <td>{{ internship.season }}</td>
             <td>{{ internship.yr }}</td>
             <td>{{ internship.experience }}</td>
+            <td><form class="favorite-form" method="post" action="/favorite">
+                <input type="submit" name="submit" value="favorite" />
+              </form></td>
         </tr>
         {% endfor %}
     </tbody>

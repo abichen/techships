@@ -9,7 +9,29 @@
   {% block head_stuff %} {% endblock %}
 </head>
 
+<style>
+  h1 {text-align: center;}
+  h2 {text-align: center;}
+  p {text-align: center;}
+  div {text-align: center;}
+</style>
+
+
 <body>
+
+  {% block nav %}
+  <nav>
+    <ul>
+      <li><a href="{{url_for('index')}}">HOME</a></li>
+      <li><a href="{{url_for('search')}}">SEARCH</a></li>
+      <li><a href="{{url_for('upload')}}">UPLOAD</a></li>
+      <li><a href="{{url_for('saved')}}">SAVED</li>
+      <li><a href="{{url_for('login')}}">LOGIN</a></li>
+      <li><a href="{{url_for('register')}}">REGISTER</li>
+      <li><a href="{{url_for('logout')}}">LOGOUT</a></li>
+    </ul>
+  </nav>
+  {% endblock %}
 
   {% with messages = get_flashed_messages() %}
   {% if messages %}
@@ -20,19 +42,6 @@
   </div>
   {% endif %}
   {% endwith %}
-
-  {% block nav %}
-  <nav>
-    <ul>
-      <li><a href="{{url_for('index')}}">Home</a></li>
-      <li><a href="{{url_for('upload')}}">Upload Internship</a></li>
-      <li><a href="{{url_for('login')}}">Login</a></li>
-      <li><a href="{{url_for('register')}}">Register</a></li>
-      <li><a href="{{url_for('search')}}">Search By Role</a></li>
-      <li><a href="{{url_for('logout')}}"> Logout</a></li>
-    </ul>
-  </nav>
-  {% endblock %}
 
   {% block main_content %}
   <h1>Welcome!</h1>
