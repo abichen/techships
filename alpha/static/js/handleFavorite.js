@@ -31,6 +31,7 @@ $("#job-list").on('click','i', function (event) {
 function updateSingleJob(resp) {
     var link = resp.link;
     console.log('response is',resp);
+    // $('data-tt=' + link).find('.favorite-form').find('i').css('color','orange');
     $('[data-tt=' + link + ']').find('.favbutton').value(1);
 };
 
