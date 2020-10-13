@@ -16,7 +16,13 @@ HTML {
 
 body{
     /* background-image: linear-gradient(to bottom right, #855AFC, #4E7DFC); */
-    background-image: linear-gradient(to bottom right, #E4B7E5, #B288C0);
+
+    /* playing around with some other background options: */
+    background-image: radial-gradient( circle farthest-corner at 0.8% 3.1%,  rgba(255,188,224,1) 0%, rgba(170,165,255,1) 46%, rgba(165,255,205,1) 100.2% );
+    height:100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* background-image: linear-gradient(to top, #ebbba7 0%, #cfc7f8 100%); */
 }
 
 a:link{
@@ -124,6 +130,7 @@ nav {
 
 nav button:hover, button:focus, nav a:hover, nav a:focus {
     color: var(--color-subheader);
+    /* color: white; */
 }
 
 /* .fa {
