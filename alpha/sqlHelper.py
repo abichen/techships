@@ -79,7 +79,7 @@ def handleFavorite(uid, link):
     conn = dbi.connect()
     curs = dbi.cursor(conn)
     curs.execute('''insert into favorites(uid, link)
-                values (%s, %s);''' [uid, link])
+                values (%s, %s);''', [uid, link])
     conn.commit()
     #if link is in users' list, remove it
     #otherwise, add it 
@@ -150,6 +150,7 @@ if __name__ == '__main__':
     # print("By Role:")
     # print(getByRole(conn,"Software Engineering"))
     # print("By Experience:")
+    fav = handleFavorite('jamie', 'https://careers.google.com/jobs/results/100877793807475398-software-engineering-intern-associates-summer-2021/')
 
     test = getFavorites(conn, 'jamie')
     print(test)

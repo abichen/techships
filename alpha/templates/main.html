@@ -12,6 +12,7 @@
 <p><b>{{ total }} total internship postings</b></p>
 
 <table id = "job-list" class="center">
+<table class="center">
     <thead>
         <tr>
             <th>Company</th>
@@ -21,7 +22,7 @@
             <th>Experience</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id = "job-list">
         {% for internship in internships %}
         <tr data-tt="{{ internship.link }}">
             <!-- <button type="button">Favorite</button> -->
@@ -32,7 +33,8 @@
             <td>{{ internship.experience }}</td>
             <td><form class="favorite-form" method="post" action="/favorite">
                 <label class="star">
-                    <i class="fa fa-star"><input type="hidden" name="favbutton" value="0"></i>
+                    <i class="fa fa-star"> Save</i>
+                    <input type="hidden" class="favbutton" value="0">
                 </label>
                 <input type="submit" name="submit" value="favorite"/>
               </form></td>

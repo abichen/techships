@@ -16,11 +16,11 @@
 
 $("input[type=submit]").hide();
 
-var fav_url = "{{url_for('favorite')}}";
+
 
 // delegated event handler
-$("#job-list").on('click','input', function (event) {
-    $(this).css('color','orange');
+$("#job-list").on('click','i', function (event) {
+    $(this).closest('i').css('color','orange');
     var link = $(this).closest('tr').attr('data-tt');
     console.log(link);
     // $(this).css('background-color', '#4CAF50');
@@ -29,9 +29,9 @@ $("#job-list").on('click','input', function (event) {
 
 
 function updateSingleJob(resp) {
-    var link = resp['link'];
-    $('[data-tt=' + link + ']')
-        .attr('.submit').css('background-color','4CAF50');
+    var link = resp.link;
+    console.log('response is',resp);
+    $('[data-tt=' + link + ']').find('.favbutton').value(1);
 };
 
 //helper function to display new average rating

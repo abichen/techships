@@ -70,7 +70,7 @@ def search():
         appsList = sqlHelper.getByRole(conn, role)
         return render_template('searchResults.html', internships = appsList)
 
-@app.route('/favorite', methods=['POST'])
+@app.route('/favorite/', methods=['POST'])
 def favorite():
     '''Adds or removes application from list of favorites when button is clicked.'''
     ###This should be done with Ajax so we don't have to reload the entire page.
@@ -80,6 +80,7 @@ def favorite():
         # Get data from form: 
         data = request.form
         link = data['link']
+        print('Link:' + link)
         # Update database
         sqlHelper.handleFavorite(uid, link)
         # response dictionary
