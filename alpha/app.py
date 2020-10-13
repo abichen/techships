@@ -68,7 +68,7 @@ def search():
         appsList = sqlHelper.getByRole(conn, role)
         return render_template('searchResults.html', internships = appsList)
 
-@app.route('/favorite', methods=['GET','POST'])
+@app.route('/favorite', methods=['POST'])
 def favorite():
     '''Adds or removes application from list of favorites when button is clicked.'''
     ###This should be done with Ajax so we don't have to reload the entire page.
@@ -108,6 +108,7 @@ def login():
         user_exists = sqlHelper.validateLogin(conn, username, password)
         if user_exists:
             session['uid'] = request.form['username']
+            flash('''Successfully logged in.''')
             return redirect(url_for('search'))
         else:
             flash('''Login failed. Invalid username or password.''')
@@ -144,6 +145,7 @@ def register():
             if is_username_unique == True:
                 try:
                     sqlHelper.register(conn, username, password, email, school)
+                    flash('''Account has been created.''')
                     return redirect(url_for('search'))
                 except:
                     error = '''This user is already registered.'''
