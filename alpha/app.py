@@ -166,6 +166,8 @@ def logout():
     uid = session['uid']
     session.pop('uid', None)
     session['uid'] = None
+
+    flash('Successfully logged out.')
     return redirect(url_for('index'))
 
 @app.before_first_request

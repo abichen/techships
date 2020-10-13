@@ -23,13 +23,17 @@
   {% block nav %}
   <nav>
     <ul>
-      <li><a href="{{url_for('index')}}">HOME</a></li>
-      <li><a href="{{url_for('search')}}">SEARCH</a></li>
-      <li><a href="{{url_for('upload')}}">UPLOAD</a></li>
-      <li><a href="{{url_for('saved')}}">SAVED</a></li>
-      <li><a href="{{url_for('login')}}">LOGIN</a></li>
-      <li><a href="{{url_for('register')}}">REGISTER</li>
-      <li><a href="{{url_for('logout')}}">LOGOUT</a></li>
+      <div class="topnav">
+        <a href="{{url_for('index')}}">HOME</a>
+        <a href="{{url_for('search')}}">SEARCH</a>
+        <a href="{{url_for('upload')}}">UPLOAD</a>
+        <a href="{{url_for('saved')}}">SAVED</a>
+      </div>
+      <div class="nav-right">
+        <a href="{{url_for('login')}}">LOGIN</a>
+        <a href="{{url_for('register')}}">REGISTER</a>
+        <a href="{{url_for('logout')}}">LOGOUT</a>
+      </div>
     </ul>
   </nav>
   {% endblock %}
