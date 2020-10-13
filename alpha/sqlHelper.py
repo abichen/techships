@@ -78,11 +78,13 @@ def handleFavorite(uid, link):
     #if link is in users' list, remove it
     #otherwise, add it 
 
-# def removeFavorite(uid, link):
-#     '''Removes application from users' list of favorites'''
-#     conn = dbi.connect()
-#     curs = dbi.cursor(conn)
-#     pass
+def removeFavorite(uid, link):
+    #Removes application from users' list of favorites'''
+    curs = dbi.cursor(conn)
+    sql = '''delete from favorites where uid = %s and link = %s'''
+    curs.execute(sql, [uid, link])
+    conn.commit()
+     
 
 
 def validateLogin(conn, username, password):
@@ -118,6 +120,17 @@ def is_username_unique(conn, username):
         return False
     else:
         return True
+
+def isFavorite(conn, uid, link):
+    curs = dbi.cursor(conn)
+    sql = '''select * from favorites where uid = %s and link = %s'''
+    curs.execute(sql, [uid, link])
+    result = curs.fetchone()
+    if result == None:
+        return False
+    else:
+        return True
+
     
 
 if __name__ == '__main__':
