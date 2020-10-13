@@ -88,6 +88,16 @@ def favorite():
         flash('You must be logged in to add to your favorites.')
         return redirect(url_for('index'))
 
+@app.route('/saved', methods=['GET','POST'])
+def saved():
+    conn = dbi.connect()
+    uid = session['uid']
+
+    if request.method == "GET":
+        saved = sqlHelper.getFavorites(conn, uid)
+
+        return render_template('saved.html', internships = saved)
+
 @app.route('/login', methods = ['GET','POST'])
 def login():
     '''Displays login page, and redirects to search page after user logs in successfully.'''
