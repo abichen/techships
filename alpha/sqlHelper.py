@@ -81,8 +81,6 @@ def handleFavorite(uid, link):
     curs.execute('''insert into favorites(uid, link)
                 values (%s, %s);''', [uid, link])
     conn.commit()
-    #if link is in users' list, remove it
-    #otherwise, add it 
 
 def removeFavorite(uid, link):
     # Removes application from users' list of favorites'''
