@@ -87,11 +87,11 @@ def removeFavorite(uid, link):
      
 def getFavorites(conn, uid):
     # Gets list of all favorited internships
-    curs = dbi.cursor(conn)
-    sql = '''select compName,role,season,yr,experience
-    from application inner join favorites using (link) where favorites.uid = %s'''
+    curs = dbi.dict_cursor(conn)
+    sql = '''select link,compName,role,season,yr,experience
+    from application inner join favorites using (link) where favorites.uid = %s;'''
     curs.execute(sql, [uid])
-    curs.fetchall()
+    return curs.fetchall()
 
 def isFavorite(conn, uid, link):
     # Checks if a link is a favorite
@@ -139,11 +139,15 @@ if __name__ == '__main__':
     dbi.cache_cnf()   # defaults to ~/.my.cnf
     dbi.use('techship_db') 
     conn = dbi.connect()
-    print("By Company:")
-    print(getByCompany(conn,"Google"))
-    print("By Role:")
-    print(getByRole(conn,"Software Engineering"))
-    print("By Experience:")
+    # print("By Company:")
+    # print(getByCompany(conn,"Google"))
+    # print("By Role:")
+    # print(getByRole(conn,"Software Engineering"))
+    # print("By Experience:")
+
+    test = getFavorites(conn, 'jamie')
+    print(test)
+
     # print(getByExperience(conn, "Senior"))
     # insertApplication("http://www.test.com","test","Data Science","Fall","2022","Freshman")
     # insertCompany("test2")
