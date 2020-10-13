@@ -68,16 +68,24 @@ def search():
         appsList = sqlHelper.getByRole(conn, role)
         return render_template('searchResults.html', internships = appsList)
 
-@app.route('/favorite', methods=['POST'])
+@app.route('/favorite', methods=['GET','POST'])
 def favorite():
     '''Adds or removes application from list of favorites when button is clicked.'''
     ###This should be done with Ajax so we don't have to reload the entire page.
     conn = dbi.connect()
-    if request.method =='POST':
-        fixFavorite = sqlHelper.handleFavorite(uid, link)
+    if (session.get('uid')): #if it exists
+        uid = session['uid']
+        # Get data from form: 
+        data = request.form
+        link = data['link']
+        # Update database
+        sqlHelper.handleFavorite(uid, link)
+        # response dictionary
+        resp_dic = {'link': link}
+        print(resp_dic['link'])
+        return jsonify(resp_dic)
     else:
-        pass 
-
+        flash('You must be logged in to add to your favorites.')
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
