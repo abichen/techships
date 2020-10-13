@@ -20,7 +20,7 @@
             <th>Experience</th>
         </tr>
     </thead>
-    <tbody class="saved-list">
+    <tbody id="saved-list">
         {% for internship in internships %}
         <tr data-tt="{{ internship.link }}">
             <td>{{ internship.compName }}</td>
@@ -31,7 +31,7 @@
             <td><form class="favorite-form" method="post" action="/saved">
                 <label class="star">
                     <i class="fa fa-star checked"> Remove</i>
-                    <input type="hidden" class="favbutton" value="0">
+                    <!-- <input type="hidden" class="favbutton" value="0"> -->
                 </label>
                 <input type="submit" name="submit" value="favorite"/>
               </form></td>

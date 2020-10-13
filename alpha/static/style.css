@@ -15,7 +15,8 @@ HTML {
 }
 
 body{
-    background-image: linear-gradient(to bottom right, #855AFC, #4E7DFC);
+    /* background-image: linear-gradient(to bottom right, #855AFC, #4E7DFC); */
+    background-image: linear-gradient(to bottom right, #E4B7E5, #B288C0);
 }
 
 a:link{

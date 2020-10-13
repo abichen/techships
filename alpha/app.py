@@ -84,10 +84,10 @@ def favorite():
         print('Fave:' + fave)
         # Update database
         # if (fave == 0):
-        sqlHelper.handleFavorite(uid, link)
-            
-        # else:
-        #     sqlHelper.removeFavorite(uid,link)
+        if sqlHelper.isFavorite(conn,uid,link) != True:
+            sqlHelper.handleFavorite(uid, link)
+        else:
+            pass
         # response dictionary
         resp_dic = {'link': link, 'fave': fave}
         print("respLink:" + resp_dic['link'])

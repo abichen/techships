@@ -30,6 +30,7 @@ $("#job-list").on('click','i', function (event) {
 
 // for saved list
 $("#saved-list").on('click','i', function (event) {
+    console.log('clicking recognized');
     $(this).closest('i').css('color','grey');
     var link = $(this).closest('tr').attr('data-tt');
     var fave = 1;
