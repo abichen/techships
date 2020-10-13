@@ -150,10 +150,11 @@ if __name__ == '__main__':
     # print("By Role:")
     # print(getByRole(conn,"Software Engineering"))
     # print("By Experience:")
-    fav = handleFavorite('jamie', 'https://careers.google.com/jobs/results/100877793807475398-software-engineering-intern-associates-summer-2021/')
+    
+    # fav = handleFavorite('jamie', 'https://careers.google.com/jobs/results/100877793807475398-software-engineering-intern-associates-summer-2021/')
 
-    test = getFavorites(conn, 'jamie')
-    print(test)
+    # test = getFavorites(conn, 'jamie')
+    # print(test)
 
     # print(getByExperience(conn, "Senior"))
     # insertApplication("http://www.test.com","test","Data Science","Fall","2022","Freshman")

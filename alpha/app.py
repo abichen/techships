@@ -24,11 +24,7 @@ def index():
     curs = dbi.cursor(conn)
     internships = sqlHelper.getInternships(conn)
     total = sqlHelper.getTotal(conn)['count(*)']
-    if (session.get('uid)')):
-        saved = sqlHelper.getFavorites(conn, uid)
-        return render_template('main.html', internships = internships, total = total, saved = saved)
-    else:
-        return render_template('main.html', internships = internships, total = total)
+    return render_template('main.html', internships = internships, total = total)
 
 @app.route('/upload/', methods=['GET','POST'])
 def upload():
