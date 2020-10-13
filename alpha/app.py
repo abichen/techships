@@ -23,7 +23,9 @@ def index():
     conn = dbi.connect()
     curs = dbi.cursor(conn)
     internships = sqlHelper.getInternships(conn)
-    return render_template('main.html', internships = internships)
+    total = sqlHelper.getTotal(conn)['count(*)']
+
+    return render_template('main.html', internships = internships, total = total)
 
 @app.route('/upload/', methods=['GET','POST'])
 def upload():

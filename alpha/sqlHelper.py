@@ -40,6 +40,12 @@ def getByExperience(conn, exp):
     where experience = %s);''', [exp])
     return curs.fetchall()
 
+def getTotal(conn):
+    # Returns the total number of internship postings
+    curs = dbi.dict_cursor(conn)
+    curs.execute('''select count(*) from application''')
+    return curs.fetchone()
+
 def companyExists(compName):
     # Given a company name, checks if it's already in the company table, 
     # returns a boolean
