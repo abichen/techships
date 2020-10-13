@@ -84,6 +84,7 @@ def handleFavorite(uid, link):
 
 def removeFavorite(uid, link):
     # Removes application from users' list of favorites'''
+    conn = dbi.connect()
     curs = dbi.cursor(conn)
     sql = '''delete from favorites where uid = %s and link = %s'''
     curs.execute(sql, [uid, link])

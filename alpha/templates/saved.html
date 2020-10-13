@@ -22,7 +22,7 @@
     </thead>
     <tbody class="saved-list">
         {% for internship in internships %}
-        <tr>
+        <tr data-tt="{{ internship.link }}">
             <td>{{ internship.compName }}</td>
             <td><a href="{{ internship.link }}">{{ internship.role }}</a></td>
             <td>{{ internship.season }}</td>
