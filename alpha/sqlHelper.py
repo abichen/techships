@@ -37,7 +37,7 @@ def getByExperience(conn, exp):
     # of all applications needing specified experience/year, as a list of dictionaries.
     curs = dbi.dict_cursor(conn)
     curs.execute('''select * from application
-    where experience = %s);''', [exp])
+    where experience = %s;''', exp)
     return curs.fetchall()
 
 def getTotal(conn):
@@ -81,11 +81,10 @@ def handleFavorite(uid, link):
     curs.execute('''insert into favorites(uid, link)
                 values (%s, %s);''', [uid, link])
     conn.commit()
-    #if link is in users' list, remove it
-    #otherwise, add it 
 
 def removeFavorite(uid, link):
     # Removes application from users' list of favorites'''
+    conn = dbi.connect()
     curs = dbi.cursor(conn)
     sql = '''delete from favorites where uid = %s and link = %s'''
     curs.execute(sql, [uid, link])
@@ -150,10 +149,11 @@ if __name__ == '__main__':
     # print("By Role:")
     # print(getByRole(conn,"Software Engineering"))
     # print("By Experience:")
-    fav = handleFavorite('jamie', 'https://careers.google.com/jobs/results/100877793807475398-software-engineering-intern-associates-summer-2021/')
+    
+    # fav = handleFavorite('jamie', 'https://careers.google.com/jobs/results/100877793807475398-software-engineering-intern-associates-summer-2021/')
 
-    test = getFavorites(conn, 'jamie')
-    print(test)
+    # test = getFavorites(conn, 'jamie')
+    # print(test)
 
     # print(getByExperience(conn, "Senior"))
     # insertApplication("http://www.test.com","test","Data Science","Fall","2022","Freshman")
