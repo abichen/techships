@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<h1>Your search results</h1>
+
+<table class="center">
+    <thead>
+        <tr>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Season</th>
+            <th>Year</th>
+            <th>Experience</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for internship in internships %}
+        <tr>
+            <td>{{ internship.compName }}</td>
+            <td><a href="{{ internship.link }}">{{internship.role }}</a></td>
+            <td>{{ internship.season }}</td>
+            <td>{{ internship.yr }}</td>
+            <td>{{ internship.experience }}</td>
+            <td><form class="favorite-form" method="post" action="/favorite">
+                <input type="submit" name="submit" value="favorite" />
+              </form></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
