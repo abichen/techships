@@ -1,0 +1,138 @@
+/* the --color-header and others are CSS variables, which we access later. 
+*/
+
+HTML {
+    height: 100%;
+    --color-background: #DAC7FD;
+    --color-header: white;  /* color for H1-H6 and others. was deepskyblue but poor contrast. */
+    --color-subheader: #B288C0;
+    --color-text: #212121;
+    --color-table-text: #4f4f4f;
+    --color-hilite: #b50000;  /* was red, but this avoids WAVE contrast errors */ 
+    --color-focus: #56B929;
+    --font-family: Product Sans;
+    font-family: var(--font-family)
+}
+
+body{
+    /* background-image: linear-gradient(to bottom right, #855AFC, #4E7DFC); */
+
+    /* playing around with some other background options: */
+    background-image: radial-gradient( circle farthest-corner at 0.8% 3.1%,  rgba(255,188,224,1) 0%, rgba(170,165,255,1) 46%, rgba(165,255,205,1) 100.2% );
+    height:100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    /* background-image: linear-gradient(to top, #ebbba7 0%, #cfc7f8 100%); */
+}
+
+a:link{
+    color: #6229ff;
+}
+
+/* Form styling */
+
+input[type="text"], button[type="submit"], input[type="checkbox"]
+{
+    font-family: var(--font-family);
+    color: var(--color-text)
+}
+
+/* For centering elements */
+
+.center{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* For table styling */
+
+tr {
+    border-color: #b5b5b5;
+    border-width: 10px;
+  }
+  
+table {
+    border-spacing: 5px;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 25px;
+    width: 800px;
+    margin: 50px;
+    color: var(--color-table-text);
+  }
+
+  tr:hover {background-color: #f4f0ff;}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+  }
+
+th{
+    color: var(--color-text);
+}
+
+/* For flashed messages */
+
+#messages {
+    color: white;
+    font-style: italic;
+}
+
+h1 {
+    font-size: 200%;
+    color: var(--color-header);
+}
+
+h2, p {
+    color: var(--color-text);
+}
+    
+/* for a simple navbar. Talk to Scott if you want drop-downs. */
+/* nav > ul {
+    display: flex;
+    flex-direction: row;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+nav > ul > li {
+    flex: 10 10 auto;
+    width: 10em; 
+} */
+
+nav {
+    overflow: hidden;
+}
+
+.topnav a {
+    float: left;
+    text-align: center;
+    /* width: 100%; */
+    /* height: 40px; */
+    padding: 14px 16px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    font-family: var(--font-family);
+    font-weight: bold;
+    font-size: 20px;
+    /* margin: 50px; */
+}
+
+.nav-right {
+    float: right;
+    padding: 14px 16px;
+}
+
+nav button:hover, button:focus, nav a:hover, nav a:focus {
+    color: var(--color-subheader);
+    /* color: white; */
+}
+
+/* .fa {
+    font-family: var(--font-family);
+} */

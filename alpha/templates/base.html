@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang='en'>
+
+<head>
+  <meta charset='utf-8'>
+  <meta name=author content="">
+  <title>Techships.io</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel='stylesheet' href="{{url_for('static', filename = 'style.css')}}">
+  {% block head_stuff %} {% endblock %}
+</head>
+
+<style>
+  h1 {text-align: center;}
+  h2 {text-align: center;}
+  p {text-align: center;}
+  div {text-align: center;}
+</style>
+
+
+<body>
+
+  {% block nav %}
+  <nav>
+    <ul>
+      <div class="topnav">
+        <a href="{{url_for('index')}}">HOME</a>
+        <a href="{{url_for('search')}}">SEARCH</a>
+        <a href="{{url_for('upload')}}">UPLOAD</a>
+        <a href="{{url_for('saved')}}">SAVED</a>
+      </div>
+      <div class="nav-right">
+        <a href="{{url_for('login')}}">LOGIN</a>
+        <a href="{{url_for('register')}}">REGISTER</a>
+        <a href="{{url_for('logout')}}">LOGOUT</a>
+      </div>
+    </ul>
+  </nav>
+  {% endblock %}
+
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+  <div id="messages">
+    {% for msg in messages %}
+    <p>{{msg}}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endwith %}
+
+  {% block main_content %}
+  <h1>Welcome!</h1>
+  {% endblock %}
+
+</body>
+<script src="//code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+var fav_url = "{{url_for('favorite')}}";
+var saved_url = "{{url_for('saved')}}";
+</script>
+<script src="{{url_for('static',filename='js/handleFavorite.js')}}"></script>
+
+
+</html>

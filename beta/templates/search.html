@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<h1>Search</h1>
+
+<form method="post" action="">
+
+<p>Looking for:</p>
+
+<p><label>Role:
+    <select required name="role">
+        <option value="">Choose</option>
+        <option value="Software Engineering">Software Engineering</option>
+        <option value="Data Science">Data Science</option>
+        <option value="Product Management">Product Management</option>
+        <option value="Program Management">Program Management</option>
+        <option value="User Experience (UX/UI)">User Experience (UX/UI)</option>
+    </select>
+    <br><br>
+    <button type="submit">Search</button>
+    <br><br>
+</label></p>
+
+
+<p><input type="submit" value="Submit">
+</form>
+
+
+{% endblock %}
