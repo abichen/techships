@@ -37,7 +37,7 @@ def getByExperience(conn, exp):
     # of all applications needing specified experience/year, as a list of dictionaries.
     curs = dbi.dict_cursor(conn)
     curs.execute('''select * from application
-    where experience = %s;''', exp)
+    where experience like %s;''', ['%' + exp+ '%'])
     return curs.fetchall()
 
 def getTotal(conn):

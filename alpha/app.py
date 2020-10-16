@@ -1,9 +1,12 @@
 from flask import (Flask, render_template, make_response, url_for, request,
                    redirect, flash, session, send_from_directory, jsonify)
 from werkzeug.utils import secure_filename
+from threading import Thread, Lock
+
 import random
 import cs304dbi as dbi
 import sqlHelper
+
 
 app = Flask(__name__)
 
@@ -16,6 +19,9 @@ app.secret_key = ''.join([ random.choice(('ABCDEFGHIJKLMNOPQRSTUVXYZ' +
 
 # This gets us better error messages for certain common request errors
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
+
+work = []                       # shared data structure ===
+lock = Lock()                   # create lock =============
 
 @app.route('/')
 def index():
@@ -30,7 +36,7 @@ def index():
 def upload():
     '''Displays upload page, and allows user to submit an internship link to database.'''  
     conn = dbi.connect()
-    #uid = session['uid']
+    uid = session['uid']
     # These forms go to the upload route
     if (session.get('uid')): #if it exists
         if request.method == 'GET':
@@ -45,11 +51,14 @@ def upload():
             year = request.form['year']
             experienceList = request.form.getlist('experience')
             experience = ','.join([str(elem) for elem in experienceList])
-
+            print(experience)
+            print(uid)
             # Insert to database
+            lock.acquire()
             if sqlHelper.companyExists(compName) == 0:
                 sqlHelper.insertCompany(compName)
-            sqlHelper.insertApplication(link,compName,role,season,year,experience)
+            lock.release()
+            sqlHelper.insertApplication(link,compName,uid,role,season,year,experience)
             flash('Internship at ' + compName + ' was uploaded successfully')
             return render_template('upload.html')
         
