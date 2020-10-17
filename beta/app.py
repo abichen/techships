@@ -30,7 +30,12 @@ def index():
     curs = dbi.cursor(conn)
     internships = sqlHelper.getInternships(conn)
     total = sqlHelper.getTotal(conn)['count(*)']
-    return render_template('main.html', internships = internships, total = total)
+    if (session.get('uid')):
+        uid = session['uid']
+        favorites = sqlHelper.getFavorites(conn, uid)
+        return render_template('mainUID.html', internships = internships, total = total, favorites = favorites)
+    else:
+        return render_template('main.html', internships = internships, total = total)
 
 @app.route('/upload/', methods=['GET','POST'])
 def upload():
@@ -103,17 +108,14 @@ def favorite():
         # Get data from form: 
         data = request.form
         link = data['link']
-        fave = data['fave']
         print('Link:' + link)
-        print('Fave:' + fave)
         # Update database
-        # if (fave == 0):
         if sqlHelper.isFavorite(conn,uid,link) != True:
-            sqlHelper.handleFavorite(uid, link)
+            sqlHelper.addFavorite(uid, link)
         else:
             pass
         # response dictionary
-        resp_dic = {'link': link, 'fave': fave}
+        resp_dic = {'link': link}
         print("respLink:" + resp_dic['link'])
         return jsonify(resp_dic)
     else:
@@ -139,14 +141,12 @@ def saved():
             # Get data from form: 
             data = request.form
             link = data['link']
-            fave = data['fave']
             print('Link:' + link)
-            print('Fave:' + fave)
             # Update database
             # remove from favs
             sqlHelper.removeFavorite(uid, link)
             # response dictionary
-            resp_dic = {'link': link, 'fave': fave}
+            resp_dic = {'link': link}
             print("respLink:" + resp_dic['link'])
             return jsonify(resp_dic)
     

@@ -101,7 +101,7 @@ def deleteReview(uid, compName):
     conn.commit()
 
 
-def handleFavorite(uid, link):
+def addFavorite(uid, link):
     # Adds application to users' list of favorites, or removes if needed
     conn = dbi.connect()
     curs = dbi.cursor(conn)
