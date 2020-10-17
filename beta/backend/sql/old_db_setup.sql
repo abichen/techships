@@ -1,6 +1,6 @@
 use techship_db;
 
-drop table if exists reviews;
+drop table if exists review;
 drop table if exists favorites;
 drop table if exists appLocation;
 drop table if exists location;
