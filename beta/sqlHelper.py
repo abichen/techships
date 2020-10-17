@@ -40,6 +40,14 @@ def getByExperience(conn, exp):
     where experience like %s;''', ['%' + exp+ '%'])
     return curs.fetchall()
 
+def getByLocation(conn, location):
+    # Returns the link, cid, uid, role, season, experience, city, state, and country
+    # of all applications needing specified location, as a list of dictionaries.
+    curs = dbi.dict_cursor(conn)
+    curs.execute('''select application.link, uid, role, season, experience, city 
+    from appLocation, application where city = %s;''', [location])
+    return curs.fetchall()
+
 def getTotal(conn):
     # Returns the total number of internship postings
     curs = dbi.dict_cursor(conn)
@@ -64,15 +72,18 @@ def insertCompany(compName):
                 values (%s);''', [compName])
     conn.commit()
 
-def insertApplication(link,compName,uid,role,season,year,experience): #add uid to this once we implement login
-    # Given the link, compName, role, season, yr, experience, inserts an
+def insertApplication(link,compName,city,uid,role,season,year,experience): 
+    # Given the link, compName, location, role, season, yr, experience, inserts an
     # application into the database.
     conn = dbi.connect()
     curs = dbi.cursor(conn)
     curs.execute('''insert into application(link,compName, uid, role,season,yr,experience) 
                 values (%s, %s, %s, %s, %s, %s, %s);''', [link, compName, uid, role, season, 
-                year, experience])
+                year, experience])            
     conn.commit()
+    curs.execute('''insert into appLocation(city, link) values (%s,%s);''',[city, link])
+    conn.commit()
+
 
 def handleFavorite(uid, link):
     # Adds application to users' list of favorites, or removes if needed

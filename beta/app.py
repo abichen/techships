@@ -45,6 +45,7 @@ def upload():
         else:
             compName = request.form['compName']
             link = request.form['link']
+            city = request.form['location']
             role = request.form['role']
             seasonList = request.form.getlist('season')
             season= ','.join([str(elem) for elem in seasonList])
@@ -58,7 +59,7 @@ def upload():
             if sqlHelper.companyExists(compName) == 0:
                 sqlHelper.insertCompany(compName)
             lock.release()
-            sqlHelper.insertApplication(link,compName,uid,role,season,year,experience)
+            sqlHelper.insertApplication(link,compName,city,uid,role,season,year,experience)
             flash('Internship at ' + compName + ' was uploaded successfully')
             return render_template('upload.html')
         
