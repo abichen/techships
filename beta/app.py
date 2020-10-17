@@ -248,7 +248,8 @@ def company(compName):
     conn = dbi.connect()
     if request.method == 'GET':
         appList = sqlHelper.getByCompany(conn, compName)
-        return render_template('company.html', src='',nm='', comp = compName, internships = appList)
+        return render_template('company.html', src=url_for('pic',nm=compName),
+                                   nm=compName, comp = compName, internships = appList)
     else:
         appList = sqlHelper.getByCompany(conn, compName)
         try:
