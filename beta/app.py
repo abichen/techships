@@ -162,7 +162,7 @@ def login():
         does_user_exist = sqlHelper.getPassword(conn, username)
         if does_user_exist == False:
             flash('''Login failed. Invalid username or password.''')
-            return redirect(url_for('index')
+            return redirect(url_for('index'))
         else:
             #rehash temp_password and check if it matches the password from the database
             hashed = row['password1']
