@@ -111,13 +111,11 @@ def favorite():
         print('Link:' + link)
         # Update database
         if sqlHelper.isFavorite(conn,uid,link) != True:
-            sqlHelper.addFavorite(uid, link)
-        else:
-            pass
+            sqlHelper.addFavorite(conn,uid, link)
         # response dictionary
-        resp_dic = {'link': link}
-        print("respLink:" + resp_dic['link'])
-        return jsonify(resp_dic)
+            resp_dic = {'link': link}
+            print("respLink:" + resp_dic['link'])
+            return jsonify(resp_dic)
     else:
         flash('You must be logged in to add to your favorites.')
         return redirect(url_for('index'))
