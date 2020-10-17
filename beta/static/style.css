@@ -132,3 +132,6 @@ nav button:hover, button:focus, nav a:hover, nav a:focus {
     color: var(--color-subheader);
 }
 
+.options {
+    border: none;
+}
