@@ -200,7 +200,8 @@ def register():
             #Check for username uniqueness, register if it is unique
             if is_username_unique == True:
                 try:
-                    sqlHelper.register(conn, username, password, email, school)
+                    hashed = bcrypt.hashpw(passwd1.encode('utf-8'), bcrypt.gensalt())
+                    sqlHelper.register(conn, username, hashed, email, school)
                     flash('''Account has been created.''')
                     return redirect(url_for('login'))
                 except:
