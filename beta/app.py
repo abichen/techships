@@ -78,7 +78,7 @@ def search():
     else:
         role = request.form['role']
         appsList = sqlHelper.getByRole(conn, role)
-        return render_template('searchResults.html', internships = appsList)
+        return render_template('searchResults.html', internships = appsList, criteria = "ROLE")
 
 @app.route('/searchExp', methods = ['POST']) 
 def searchExp():
@@ -90,7 +90,7 @@ def searchExp():
         appsList = sqlHelper.getByExperience(conn, exp)
         flash_msg = 'You have searched for: ' + exp 
         flash(flash_msg)
-        return render_template('searchResults.html', internships = appsList)
+        return render_template('searchResults.html', internships = appsList, criteria = "EXPERIENCE")
     else:
         return render_template('search.html')
 
