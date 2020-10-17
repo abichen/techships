@@ -160,16 +160,17 @@ def login():
         username = request.form['username']
         temp_password = request.form['password']
         does_user_exist = sqlHelper.getPassword(conn, username)
-
         if does_user_exist == False:
-            flash('''Login failed. Invalid username or password.''')
+            flash('''Login failed. Invalid Username or password.''')
             return redirect(url_for('login'))
         else:
             password = does_user_exist[1]
-            hashed2 = bcrypt.hashpw(temp_password.encode('utf-8'),bcrypt.gensalt())
+            print('database has hashed: {} {}'.format(password,type(password)))
+            print('form supplied passwd: {} {}'.format(temp_password,type(temp_password)))
+            hashed2 = bcrypt.hashpw(temp_password.encode('utf-8'), password.encode('utf-8')) #used to use bcrypt.gensalt()  as salt
             hashed2_string = hashed2.decode('utf-8')
 
-            if bcrypt.hashpw(password.encode('utf-8'), hashed2) == hashed2:
+            if hashed2_string == password: # used to be if bcrypt.hashpw(password.encode('utf-8'), hashed2) == hashed2:
                 session['uid'] = request.form['username']
                 flash('''Successfully logged in.''')
                 return redirect(url_for('search'))
@@ -203,11 +204,10 @@ def register():
             flash(error)
         else:
             is_username_unique = sqlHelper.is_username_unique(conn,username)
-            
             #Check for username uniqueness, register if it is unique
             if is_username_unique == True:
                 try:
-                    hashed = bcrypt.hashpw(passwd1.encode('utf-8'), bcrypt.gensalt())
+                    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
                     sqlHelper.register(conn, username, hashed, email, school)
                     flash('''Account has been created.''')
                     return redirect(url_for('login'))
