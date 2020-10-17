@@ -172,7 +172,7 @@ def getPassword(conn, username):
     conn = dbi.connect()
     curs = dbi.cursor(conn)
     curs.execute('''SELECT uid,password1
-                      FROM userpass
+                      FROM user
                       WHERE uid = %s''',
                      [uid])
     row = curs.fetchone()
