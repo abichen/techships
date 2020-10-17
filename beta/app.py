@@ -217,6 +217,13 @@ def register():
     else:
         return render_template('register.html')
 
+@app.route("/company/<compName>")
+def company(compName):
+    conn = dbi.connect()
+    
+    appList = sqlHelper.getByCompany(conn, compName)
+    return render_template('company.html', comp = compName, internships = appList)
+
 @app.route("/logout")
 def logout():
     uid = session['uid']

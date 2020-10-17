@@ -26,7 +26,7 @@
             {% for internship in internships %}
             <tr data-tt="{{ internship.link }}">
                 <!-- <button type="button">Favorite</button> -->
-                <td>{{ internship.compName }}</td>
+                <td> <a href="{{ url_for('company', compName = internship.compName ) }}">{{ internship.compName }}</a> </td>
                 <td><a href="{{ internship.link }}">{{internship.role }}</a></td>
                 <td>{{ internship.season }}</td>
                 <td>{{ internship.yr }}</td>

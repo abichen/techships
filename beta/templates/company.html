@@ -2,12 +2,11 @@
 
 {% block main_content %}
 
-<h1>Your search results when filtering by {{ criteria }}:</h1>
+<h1>{{comp}}</h1>
 
 <table class="center">
     <thead>
         <tr>
-            <th>Company</th>
             <th>Role</th>
             <th>Season</th>
             <th>Year</th>
@@ -16,8 +15,7 @@
     </thead>
     <tbody>
         {% for internship in internships %}
-        <tr data-cc = "{{internship.compName}}">
-            <td> <a href="{{ url_for('company', compName = internship.compName ) }}">{{ internship.compName }}</a> </td>
+        <tr>
             <td><a href="{{ internship.link }}">{{internship.role }}</a></td>
             <td>{{ internship.season }}</td>
             <td>{{ internship.yr }}</td>
