@@ -174,7 +174,7 @@ def login():
             print('database has hashed: {} {}'.format(hashed,type(hashed)))
             print('form supplied passwd: {} {}'.format(passwd,type(passwd)))
             x = hashed.encode('utf-8')
-            hashed2 = bcrypt.hashpw(x, passwd.encode('utf-8'))
+            hashed2 = bcrypt.hashpw(passwd.encode('utf-8'), x)
             hashed2_str = hashed2.decode('utf-8')
             print('rehash is: {} {}'.format(hashed2_str,type(hashed2_str)))
             if hashed2_str == hashed:
