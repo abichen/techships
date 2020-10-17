@@ -36,35 +36,36 @@ def index():
 def upload():
     '''Displays upload page, and allows user to submit an internship link to database.'''  
     conn = dbi.connect()
-    uid = session['uid']
-    # These forms go to the upload route
-    if (session.get('uid')): #if it exists
-        if request.method == 'GET':
-            return render_template('upload.html')
+    try: 
+        uid = session['uid']
+        # These forms go to the upload route
+        if (session.get('uid')): #if it exists
+            if request.method == 'GET':
+                return render_template('upload.html')
 
-        else:
-            compName = request.form['compName']
-            link = request.form['link']
-            city = request.form['location']
-            role = request.form['role']
-            seasonList = request.form.getlist('season')
-            season= ','.join([str(elem) for elem in seasonList])
-            year = request.form['year']
-            experienceList = request.form.getlist('experience')
-            experience = ','.join([str(elem) for elem in experienceList])
-            print(experience)
-            print(uid)
-            # Insert to database
-            lock.acquire()
-            if sqlHelper.companyExists(compName) == 0:
-                sqlHelper.insertCompany(compName)
-            lock.release()
-            sqlHelper.insertApplication(link,compName,city,uid,role,season,year,experience)
-            flash('Internship at ' + compName + ' was uploaded successfully')
-            return render_template('upload.html')
-        
-        #User must login before uploading 
-    else:
+            else:
+                compName = request.form['compName']
+                link = request.form['link']
+                city = request.form['location']
+                role = request.form['role']
+                seasonList = request.form.getlist('season')
+                season= ','.join([str(elem) for elem in seasonList])
+                year = request.form['year']
+                experienceList = request.form.getlist('experience')
+                experience = ','.join([str(elem) for elem in experienceList])
+                print(experience)
+                print(uid)
+                # Insert to database
+                lock.acquire()
+                if sqlHelper.companyExists(compName) == 0:
+                    sqlHelper.insertCompany(compName)
+                lock.release()
+                sqlHelper.insertApplication(link,compName,city,uid,role,season,year,experience)
+                flash('Internship at ' + compName + ' was uploaded successfully')
+                return render_template('upload.html')
+            
+            #User must login before uploading 
+    except KeyError:
         flash('You must be logged in to upload information.')
         return redirect(url_for('index'))
 
