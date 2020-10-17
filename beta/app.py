@@ -158,15 +158,24 @@ def login():
     conn = dbi.connect()
     if request.method == "POST":
         username = request.form['username']
-        password = request.form['password']
-        user_exists = sqlHelper.validateLogin(conn, username, password)
-        if user_exists:
-            session['uid'] = request.form['username']
-            flash('''Successfully logged in.''')
-            return redirect(url_for('search'))
-        else:
+        temp_password = request.form['password']
+        does_user_exist = sqlHelper.getPassword(conn, username)
+        if does_user_exist == False:
             flash('''Login failed. Invalid username or password.''')
-            return render_template('main.html')
+            return redirect(url_for('index')
+        else:
+            #rehash temp_password and check if it matches the password from the database
+            hashed = row['password1']
+            hashed2 = bcrypt.hashpw(temp_password.encode('utf-8'),hashed.encode('utf-8'))
+            hashed2_str = hashed2.decode('utf-8')
+        
+            if hashed2_str == hashed:
+                session['uid'] = request.form['username']
+                flash('''Successfully logged in.''')
+                return redirect(url_for('search'))
+            else:
+                flash('''Login failed. Invalid username or password.''')
+                return redirect(url_for('index'))
     else:
         return render_template('login.html')
 

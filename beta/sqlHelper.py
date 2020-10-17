@@ -167,6 +167,21 @@ def is_username_unique(conn, username):
     else:
         return True
 
+def getPassword(conn, username):
+    #Given uid, get username and hashed password."
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    curs.execute('''SELECT uid,password1
+                      FROM userpass
+                      WHERE uid = %s''',
+                     [uid]))
+    row = curs.fetchone()
+
+    if row is None:
+        return False
+    else:
+        return row 
+
 if __name__ == '__main__':
     dbi.cache_cnf()   # defaults to ~/.my.cnf
     dbi.use('techship_db') 
