@@ -26,5 +26,25 @@
 <p><input type="submit" value="Submit">
 </form>
 
+<form method="post" action="/searchExp">
+
+<p>Looking for:</p>
+
+<p><label>Year/Experience:
+    <select required name="experience">
+        <option value="">Choose</option>
+        <option value="Freshman">Freshman</option>
+        <option value="Sophomore">Sophomore</option>
+        <option value="Junior">Junior</option>
+        <option value="Senior">Senior</option>
+    </select>
+    <br><br>
+    <button type="submit">Search</button>
+    <br><br>
+</label></p>
+
+
+<p><input type="submit" value="Submit">
+</form>
 
 {% endblock %}

@@ -27,13 +27,36 @@ $("#job-list").on('click','i', function (event) {
     $.post(fav_url, {'link' : link}, updateSingleJob);
 });
 
+// for saved list
+$("#saved-list").on('click','i', function (event) {
+    console.log('clicking recognized');
+    $(this).closest('i').css('color','grey');
+    var link = $(this).closest('tr').attr('data-tt');
+    console.log(link);
+    // $(this).css('background-color', '#4CAF50');
+    $.post(saved_url, {'link' : link}, updateSingleJob);
+});
+
 
 function updateSingleJob(resp) {
     var link = resp.link;
     console.log('response is',resp);
-    $('[data-tt=' + link + ']').find('.favbutton').value(1);
+    // $('[data-tt=' + link + ']').find('.favbutton').value(1);
 };
 
+
+
+function revealButtons(){
+    var fave = document.getElementById('favelink').value;
+    var internship = document.getElementById('intlink').value;
+    console.log('fave: ' + fave);
+    console.log('internship: ' + internship);
+    console.log("revealBUttons");
+    if (fave == internship){
+        console.log("match");
+        $("#saveicon").css("color","orange");
+    }
+}
 //helper function to display new average rating
 // function updateSingleRating(resp) {
 //     var tt = resp['tt'];
@@ -42,17 +65,3 @@ function updateSingleJob(resp) {
 //         .find('.avgrating').text(updatedRating);
 // };
 
-//button to turn progressive enhancement on/off
-$("#progressive_enhancement").on('click', function () {
-    if (progressive_on) {
-        // turn it off
-        $("input[name=stars],input[type=submit]").show();
-        $("#progressive_enhancement").text('Turn on Progressive Enhancement');
-        progressive_on = false;
-    } else {
-        // turn it on
-        $("input[name=stars],input[type=submit]").hide();
-        $("#progressive_enhancement").text('Turn off Progressive Enhancement');
-        progressive_on = true;
-    }
-});

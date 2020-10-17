@@ -3,10 +3,11 @@ from flask import (Flask, render_template, make_response, url_for, request,
 from werkzeug.utils import secure_filename
 from threading import Thread, Lock
 
+import os
 import random
 import cs304dbi as dbi
 import sqlHelper
-
+import bcrypt
 
 app = Flask(__name__)
 
@@ -30,40 +31,47 @@ def index():
     curs = dbi.cursor(conn)
     internships = sqlHelper.getInternships(conn)
     total = sqlHelper.getTotal(conn)['count(*)']
-    return render_template('main.html', internships = internships, total = total)
+    if (session.get('uid')):
+        uid = session['uid']
+        favorites = sqlHelper.getFavorites(conn, uid)
+        return render_template('mainUID.html', internships = internships, total = total, favorites = favorites)
+    else:
+        return render_template('main.html', internships = internships, total = total)
 
 @app.route('/upload/', methods=['GET','POST'])
 def upload():
     '''Displays upload page, and allows user to submit an internship link to database.'''  
     conn = dbi.connect()
-    uid = session['uid']
-    # These forms go to the upload route
-    if (session.get('uid')): #if it exists
-        if request.method == 'GET':
-            return render_template('upload.html')
+    try: 
+        uid = session['uid']
+        # These forms go to the upload route
+        if (session.get('uid')): #if it exists
+            if request.method == 'GET':
+                return render_template('upload.html')
 
-        else:
-            compName = request.form['compName']
-            link = request.form['link']
-            role = request.form['role']
-            seasonList = request.form.getlist('season')
-            season= ','.join([str(elem) for elem in seasonList])
-            year = request.form['year']
-            experienceList = request.form.getlist('experience')
-            experience = ','.join([str(elem) for elem in experienceList])
-            print(experience)
-            print(uid)
-            # Insert to database
-            lock.acquire()
-            if sqlHelper.companyExists(compName) == 0:
-                sqlHelper.insertCompany(compName)
-            lock.release()
-            sqlHelper.insertApplication(link,compName,uid,role,season,year,experience)
-            flash('Internship at ' + compName + ' was uploaded successfully')
-            return render_template('upload.html')
-        
-        #User must login before uploading 
-    else:
+            else:
+                compName = request.form['compName']
+                link = request.form['link']
+                city = request.form['location']
+                role = request.form['role']
+                seasonList = request.form.getlist('season')
+                season= ','.join([str(elem) for elem in seasonList])
+                year = request.form['year']
+                experienceList = request.form.getlist('experience')
+                experience = ','.join([str(elem) for elem in experienceList])
+                print(experience)
+                print(uid)
+                # Insert to database
+                lock.acquire()
+                if sqlHelper.companyExists(compName) == 0:
+                    sqlHelper.insertCompany(compName)
+                lock.release()
+                sqlHelper.insertApplication(link,compName,city,uid,role,season,year,experience)
+                flash('Internship at ' + compName + ' was uploaded successfully')
+                return render_template('upload.html')
+            
+            #User must login before uploading 
+    except KeyError:
         flash('You must be logged in to upload information.')
         return redirect(url_for('index'))
 
@@ -76,7 +84,7 @@ def search():
     else:
         role = request.form['role']
         appsList = sqlHelper.getByRole(conn, role)
-        return render_template('searchResults.html', internships = appsList)
+        return render_template('searchResults.html', internships = appsList, criteria = "ROLE")
 
 @app.route('/searchExp', methods = ['POST']) 
 def searchExp():
@@ -86,7 +94,7 @@ def searchExp():
         print("TEST!!!")
         print(exp)
         appsList = sqlHelper.getByExperience(conn, exp)
-        return render_template('searchResults.html', internships = appsList)
+        return render_template('searchResults.html', internships = appsList, criteria = "EXPERIENCE")
     else:
         return render_template('search.html')
 
@@ -101,19 +109,14 @@ def favorite():
         # Get data from form: 
         data = request.form
         link = data['link']
-        fave = data['fave']
         print('Link:' + link)
-        print('Fave:' + fave)
         # Update database
-        # if (fave == 0):
         if sqlHelper.isFavorite(conn,uid,link) != True:
-            sqlHelper.handleFavorite(uid, link)
-        else:
-            pass
+            sqlHelper.addFavorite(conn,uid, link)
         # response dictionary
-        resp_dic = {'link': link, 'fave': fave}
-        print("respLink:" + resp_dic['link'])
-        return jsonify(resp_dic)
+            resp_dic = {'link': link}
+            print("respLink:" + resp_dic['link'])
+            return jsonify(resp_dic)
     else:
         flash('You must be logged in to add to your favorites.')
         return redirect(url_for('index'))
@@ -137,14 +140,12 @@ def saved():
             # Get data from form: 
             data = request.form
             link = data['link']
-            fave = data['fave']
             print('Link:' + link)
-            print('Fave:' + fave)
             # Update database
             # remove from favs
             sqlHelper.removeFavorite(uid, link)
             # response dictionary
-            resp_dic = {'link': link, 'fave': fave}
+            resp_dic = {'link': link}
             print("respLink:" + resp_dic['link'])
             return jsonify(resp_dic)
     
@@ -153,18 +154,39 @@ def saved():
 @app.route('/login', methods = ['GET','POST'])
 def login():
     '''Displays login page, and redirects to search page after user logs in successfully.'''
-    conn = dbi.connect()
     if request.method == "POST":
-        username = request.form['username']
-        password = request.form['password']
-        user_exists = sqlHelper.validateLogin(conn, username, password)
-        if user_exists:
-            session['uid'] = request.form['username']
-            flash('''Successfully logged in.''')
-            return redirect(url_for('search'))
-        else:
-            flash('''Login failed. Invalid username or password.''')
-            return render_template('main.html')
+        try:
+            username = request.form['username']
+            passwd = request.form['password']
+            conn = dbi.connect()
+            curs = dbi.dict_cursor(conn)
+            curs.execute('''SELECT uid,password1
+                        FROM user
+                        WHERE uid = %s''',
+                        [username])
+            row = curs.fetchone()
+            if row is None:
+                # Same response as wrong password,
+                # so no information about what went wrong
+                flash('login incorrect. Try again or join')
+                return redirect( url_for('index'))
+            hashed = row['password1'] #was 'hashed'
+            print('database has hashed: {} {}'.format(hashed,type(hashed)))
+            print('form supplied passwd: {} {}'.format(passwd,type(passwd)))
+            x = hashed.encode('utf-8')
+            hashed2 = bcrypt.hashpw(x, passwd.encode('utf-8'))
+            hashed2_str = hashed2.decode('utf-8')
+            print('rehash is: {} {}'.format(hashed2_str,type(hashed2_str)))
+            if hashed2_str == hashed:
+                session['uid'] = request.form['username']
+                flash('''Successfully logged in.''')
+                return redirect(url_for('search'))
+            else:
+                flash('''Login failed. Invalid username or password.''')
+                return redirect(url_for('login'))
+        except Exception as err:
+            flash('form submission error '+str(err))
+            return redirect( url_for('index') )
     else:
         return render_template('login.html')
 
@@ -192,13 +214,13 @@ def register():
             flash(error)
         else:
             is_username_unique = sqlHelper.is_username_unique(conn,username)
-            
             #Check for username uniqueness, register if it is unique
             if is_username_unique == True:
                 try:
-                    sqlHelper.register(conn, username, password, email, school)
+                    hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+                    sqlHelper.register(conn, username, hashed, email, school)
                     flash('''Account has been created.''')
-                    return redirect(url_for('search'))
+                    return redirect(url_for('login'))
                 except:
                     error = '''This user is already registered.'''
                     flash(error)
@@ -211,6 +233,13 @@ def register():
     
     else:
         return render_template('register.html')
+
+@app.route("/company/<compName>")
+def company(compName):
+    conn = dbi.connect()
+    
+    appList = sqlHelper.getByCompany(conn, compName)
+    return render_template('company.html', comp = compName, internships = appList)
 
 @app.route("/logout")
 def logout():

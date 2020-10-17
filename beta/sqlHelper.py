@@ -40,6 +40,14 @@ def getByExperience(conn, exp):
     where experience like %s;''', ['%' + exp+ '%'])
     return curs.fetchall()
 
+def getByLocation(conn, location):
+    # Returns the link, cid, uid, role, season, experience, city, state, and country
+    # of all applications needing specified location, as a list of dictionaries.
+    curs = dbi.dict_cursor(conn)
+    curs.execute('''select application.link, uid, role, season, experience, city 
+    from appLocation, application where city = %s;''', [location])
+    return curs.fetchall()
+
 def getTotal(conn):
     # Returns the total number of internship postings
     curs = dbi.dict_cursor(conn)
@@ -64,19 +72,37 @@ def insertCompany(compName):
                 values (%s);''', [compName])
     conn.commit()
 
-def insertApplication(link,compName,uid,role,season,year,experience): #add uid to this once we implement login
-    # Given the link, compName, role, season, yr, experience, inserts an
+def insertApplication(link,compName,city,uid,role,season,year,experience): 
+    # Given the link, compName, location, role, season, yr, experience, inserts an
     # application into the database.
     conn = dbi.connect()
     curs = dbi.cursor(conn)
     curs.execute('''insert into application(link,compName, uid, role,season,yr,experience) 
                 values (%s, %s, %s, %s, %s, %s, %s);''', [link, compName, uid, role, season, 
-                year, experience])
+                year, experience])            
+    conn.commit()
+    curs.execute('''insert into appLocation(city, link) values (%s,%s);''',[city, link])
     conn.commit()
 
-def handleFavorite(uid, link):
-    # Adds application to users' list of favorites, or removes if needed
+def insertReview(uid, compName, reviewText):
+    #Given the uid, compName, and review, inserts a review into the database.
     conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    curs.execute('''insert into review(uid, compName, reviewText) values (%s, %s, %s);''', 
+                [uid, compName, reviewText])
+    conn.commit()
+
+def deleteReview(uid, compName):
+    #Given the uid and compName, deletes a review from the database. 
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    curs.execute('''delete from review where uid = %s and compName = %s;''', 
+                [uid, compName])
+    conn.commit()
+
+
+def addFavorite(conn, uid, link):
+    # Adds application to users' list of favorites, or removes if needed
     curs = dbi.cursor(conn)
     curs.execute('''insert into favorites(uid, link)
                 values (%s, %s);''', [uid, link])
@@ -124,7 +150,7 @@ def validateLogin(conn, username, password):
 def register(conn, username, password, email, school):
     # Insert movie into database with tt, title, and release year.
     curs = dbi.cursor(conn)
-    sql = '''insert into user (uid, password1, email, school) values(%s, %s, %s, %s);'''
+    sql = '''insert into user (uid, password1, email, school) values(%s, %s, %s, %s)'''
     curs.execute(sql, [username, password, email, school])
     conn.commit()
 
@@ -139,6 +165,21 @@ def is_username_unique(conn, username):
         return False
     else:
         return True
+
+def getPassword(conn, username):
+    #Given uid, get username and hashed password."
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    curs.execute('''SELECT uid,password1
+                      FROM user
+                      WHERE uid = %s''',
+                     [username])
+    row = curs.fetchone()
+
+    if row is None:
+        return False
+    else:
+        return row 
 
 if __name__ == '__main__':
     dbi.cache_cnf()   # defaults to ~/.my.cnf

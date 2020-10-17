@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block main_content %}
-
+<body onload="revealButtons()">
 <h1>techships.io</h1>
 
 <h2>For students, by students.</h2>
@@ -33,6 +33,10 @@
                 <td>{{ internship.experience }}</td>
                 <td>
                     <form class="favorite-form" method="post" action="/favorite">
+                        {% for fave in favorites %}
+                        <input type="hidden" id="favelink" value="{{fave.link}}">
+                        <input type="hidden" id="intlink" value="{{internship.link}}">
+                        {% endfor %}
                         <label class="star">
                             <span><i class="fa fa-star"  id="saveicon"> Save</i></span>
                             <input type="hidden" class="favbutton" value="0">
@@ -44,5 +48,5 @@
             {% endfor %}
         </tbody>
     </table>
-
+</body>
     {% endblock %}
