@@ -6,41 +6,43 @@
 
 <h2>For students, by students.</h2>
 
-<p>Use this database to share and keep track of any tech-related internships!</p>
+<p>Use this database to share and keep track of any internships!</p>
 
 <br>
 <p><b>{{ total }} total internship postings</b></p>
 
 <table class="center">
-<table class="center">
-    <thead>
-        <tr>
-            <th>Company</th>
-            <th>Role</th>
-            <th>Season</th>
-            <th>Year</th>
-            <th>Experience</th>
-        </tr>
-    </thead>
-    <tbody id = "job-list">
-        {% for internship in internships %}
-        <tr data-tt="{{ internship.link }}">
-            <!-- <button type="button">Favorite</button> -->
-            <td>{{ internship.compName }}</td>
-            <td><a href="{{ internship.link }}">{{internship.role }}</a></td>
-            <td>{{ internship.season }}</td>
-            <td>{{ internship.yr }}</td>
-            <td>{{ internship.experience }}</td>
-            <td><form class="favorite-form" method="post" action="/favorite">
-                <label class="star">
-                    <i class="fa fa-star"> Save</i>
-                    <input type="hidden" class="favbutton" value="0">
-                </label>
-                <input type="submit" name="submit" value="favorite"/>
-              </form></td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+    <table class="center">
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Role</th>
+                <th>Season</th>
+                <th>Year</th>
+                <th>Experience</th>
+            </tr>
+        </thead>
+        <tbody id="job-list">
+            {% for internship in internships %}
+            <tr data-tt="{{ internship.link }}">
+                <!-- <button type="button">Favorite</button> -->
+                <td>{{ internship.compName }}</td>
+                <td><a href="{{ internship.link }}">{{internship.role }}</a></td>
+                <td>{{ internship.season }}</td>
+                <td>{{ internship.yr }}</td>
+                <td>{{ internship.experience }}</td>
+                <td>
+                    <form class="favorite-form" method="post" action="/favorite">
+                        <label class="star">
+                            <i class="fa fa-star"> Save</i>
+                            <input type="hidden" class="favbutton" value="0">
+                        </label>
+                        <input type="submit" name="submit" value="favorite" />
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
-{% endblock %}
+    {% endblock %}
