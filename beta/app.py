@@ -6,7 +6,7 @@ from threading import Thread, Lock
 import random
 import cs304dbi as dbi
 import sqlHelper
-
+import bcrypt
 
 app = Flask(__name__)
 
@@ -88,8 +88,6 @@ def searchExp():
         print("TEST!!!")
         print(exp)
         appsList = sqlHelper.getByExperience(conn, exp)
-        flash_msg = 'You have searched for: ' + exp 
-        flash(flash_msg)
         return render_template('searchResults.html', internships = appsList, criteria = "EXPERIENCE")
     else:
         return render_template('search.html')
@@ -160,15 +158,24 @@ def login():
     conn = dbi.connect()
     if request.method == "POST":
         username = request.form['username']
-        password = request.form['password']
-        user_exists = sqlHelper.validateLogin(conn, username, password)
-        if user_exists:
-            session['uid'] = request.form['username']
-            flash('''Successfully logged in.''')
-            return redirect(url_for('search'))
-        else:
+        temp_password = request.form['password']
+        does_user_exist = sqlHelper.getPassword(conn, username)
+
+        if does_user_exist == False:
             flash('''Login failed. Invalid username or password.''')
-            return render_template('main.html')
+            return redirect(url_for('login'))
+        else:
+            password = does_user_exist[1]
+            hashed2 = bcrypt.hashpw(temp_password.encode('utf-8'),bcrypt.gensalt())
+            hashed2_string = hashed2.decode('utf-8')
+
+            if bcrypt.hashpw(password.encode('utf-8'), hashed2) == hashed2:
+                session['uid'] = request.form['username']
+                flash('''Successfully logged in.''')
+                return redirect(url_for('search'))
+            else:
+                flash('''Login failed. Invalid username or password.''')
+                return redirect(url_for('login'))
     else:
         return render_template('login.html')
 

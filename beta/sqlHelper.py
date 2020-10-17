@@ -84,6 +84,22 @@ def insertApplication(link,compName,city,uid,role,season,year,experience):
     curs.execute('''insert into appLocation(city, link) values (%s,%s);''',[city, link])
     conn.commit()
 
+def insertReview(uid, compName, reviewText):
+    #Given the uid, compName, and review, inserts a review into the database.
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    curs.execute('''insert into review(uid, compName, reviewText) values (%s, %s, %s);''', 
+                [uid, compName, reviewText])
+    conn.commit()
+
+def deleteReview(uid, compName):
+    #Given the uid and compName, deletes a review from the database. 
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    curs.execute('''delete from review where uid = %s and compName = %s;''', 
+                [uid, compName])
+    conn.commit()
+
 
 def handleFavorite(uid, link):
     # Adds application to users' list of favorites, or removes if needed
@@ -150,6 +166,21 @@ def is_username_unique(conn, username):
         return False
     else:
         return True
+
+def getPassword(conn, username):
+    #Given uid, get username and hashed password."
+    conn = dbi.connect()
+    curs = dbi.cursor(conn)
+    curs.execute('''SELECT uid,password1
+                      FROM user
+                      WHERE uid = %s''',
+                     [username])
+    row = curs.fetchone()
+
+    if row is None:
+        return False
+    else:
+        return row 
 
 if __name__ == '__main__':
     dbi.cache_cnf()   # defaults to ~/.my.cnf
