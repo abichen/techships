@@ -6,7 +6,7 @@ from threading import Thread, Lock
 import random
 import cs304dbi as dbi
 import sqlHelper
-
+import bcrypt
 
 app = Flask(__name__)
 
@@ -164,12 +164,14 @@ def login():
             flash('''Login failed. Invalid username or password.''')
             return redirect(url_for('index'))
         else:
+            #USE BCRYPT HERE TO CHECK!!!!!!!!!!!!!
             #rehash temp_password and check if it matches the password from the database
-            hashed = row['password1']
-            hashed2 = bcrypt.hashpw(temp_password.encode('utf-8'),hashed.encode('utf-8'))
-            hashed2_str = hashed2.decode('utf-8')
-        
-            if hashed2_str == hashed:
+            hashed = does_user_exist[1]
+            hashed2 = bcrypt.hashpw(temp_password.encode('utf-8'),bcrypt.gensalt())
+            hashed2_string = hashed2.encode().decode('utf-8')
+            print(hashed)
+            print(hashed2_string)
+            if hashed2_string == hashed:
                 session['uid'] = request.form['username']
                 flash('''Successfully logged in.''')
                 return redirect(url_for('search'))
