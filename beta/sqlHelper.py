@@ -151,7 +151,7 @@ def validateLogin(conn, username, password):
 def register(conn, username, password, email, school):
     # Insert movie into database with tt, title, and release year.
     curs = dbi.cursor(conn)
-    sql = '''insert into user (uid, password1, email, school) values(%s, %s, %s, %s);'''
+    sql = '''insert into user (uid, password1, email, school) values(%s, %s, %s, %s)'''
     curs.execute(sql, [username, password, email, school])
     conn.commit()
 
