@@ -201,7 +201,7 @@ def register():
                 try:
                     sqlHelper.register(conn, username, password, email, school)
                     flash('''Account has been created.''')
-                    return redirect(url_for('search'))
+                    return redirect(url_for('login'))
                 except:
                     error = '''This user is already registered.'''
                     flash(error)
