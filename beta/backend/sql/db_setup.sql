@@ -6,7 +6,7 @@ drop table if exists location;
 drop table if exists application;
 drop table if exists user;
 drop table if exists company;
-
+drop table if exists review;
 
 CREATE TABLE user(
     uid varchar(15),
@@ -67,6 +67,19 @@ create table favorites(
         on update restrict,
     foreign key (link) references application (link)
         on update restrict
+)
+
+engine = InnoDb;
+
+create table review(
+    uid varchar(15),
+    compName varchar(30),
+    reviewText varchar(350),
+    foreign key (uid) references user (uid)
+        on update restrict,
+    foreign key (compName) references company (compName)
+        on update restrict
+        on delete restrict
 )
 
 engine = InnoDb;
