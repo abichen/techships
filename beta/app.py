@@ -87,6 +87,8 @@ def searchExp():
         print("TEST!!!")
         print(exp)
         appsList = sqlHelper.getByExperience(conn, exp)
+        flash_msg = 'You have searched for: ' + exp 
+        flash(flash_msg)
         return render_template('searchResults.html', internships = appsList)
     else:
         return render_template('search.html')
