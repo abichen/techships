@@ -252,32 +252,38 @@ def company(compName):
                                    nm=compName, comp = compName, internships = appList)
     else:
         appList = sqlHelper.getByCompany(conn, compName)
-        try:
-            #nm = int(request.form['nm']) # may throw error
-            f = request.files['pic']
-            user_filename = f.filename
-            ext = user_filename.split('.')[-1]
-            filename = secure_filename('{}.{}'.format(compName,ext))
-            print("!!TEST 1!! file name")
-            print(filename)
-            pathname = os.path.join(app.config['UPLOADS'],filename)
-            f.save(pathname)
-            print("!!TEST!! file name")
-            print(filename)
-            curs = dbi.dict_cursor(conn)
-            curs.execute(
-                '''insert into picfile(compName,filename) values (%s,%s)
-                   on duplicate key update filename = %s''',
-                [compName, filename, filename])
-            conn.commit()
-            flash('Upload successful')
+        if (session.get('uid')):
+            uid = session['uid']
+            try:
+                #nm = int(request.form['nm']) # may throw error
+                f = request.files['pic']
+                user_filename = f.filename
+                ext = user_filename.split('.')[-1]
+                filename = secure_filename('{}.{}'.format(compName,ext))
+                print("!!TEST 1!! file name")
+                print(filename)
+                pathname = os.path.join(app.config['UPLOADS'],filename)
+                f.save(pathname)
+                print("!!TEST!! file name")
+                print(filename)
+                curs = dbi.dict_cursor(conn)
+                curs.execute(
+                    '''insert into picfile(compName,filename) values (%s,%s)
+                       on duplicate key update filename = %s''',
+                    [compName, filename, filename])
+                conn.commit()
+                flash('Upload successful')
+                return render_template('company.html',
+                                    src=url_for('pic',nm=compName),
+                                    nm=compName, comp = compName, internships = appList)
+            except Exception as err:
+                flash('Upload failed {why}'.format(why=err))
+                return render_template('company.html',src='',nm='', comp = compName, internships = appList)
+        else:
+            flash('You must be logged in to add a photo.')
             return render_template('company.html',
-                                   src=url_for('pic',nm=compName),
-                                   nm=compName, comp = compName, internships = appList)
-        except Exception as err:
-            flash('Upload failed {why}'.format(why=err))
-            return render_template('company.html',src='',nm='', comp = compName, internships = appList)
-
+                                    src=url_for('pic',nm=compName),
+                                    nm=compName, comp = compName, internships = appList)
 @app.route('/pic/<nm>')
 def pic(nm):
     conn = dbi.connect()
