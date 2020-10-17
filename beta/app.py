@@ -260,12 +260,8 @@ def company(compName):
                 user_filename = f.filename
                 ext = user_filename.split('.')[-1]
                 filename = secure_filename('{}.{}'.format(compName,ext))
-                print("!!TEST 1!! file name")
-                print(filename)
                 pathname = os.path.join(app.config['UPLOADS'],filename)
                 f.save(pathname)
-                print("!!TEST!! file name")
-                print(filename)
                 curs = dbi.dict_cursor(conn)
                 curs.execute(
                     '''insert into picfile(compName,filename) values (%s,%s)
