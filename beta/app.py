@@ -3,6 +3,8 @@ from flask import (Flask, render_template, make_response, url_for, request,
 from werkzeug.utils import secure_filename
 from threading import Thread, Lock
 
+
+
 import sys, os, random
 import imghdr
 import random
@@ -21,6 +23,12 @@ app.secret_key = ''.join([ random.choice(('ABCDEFGHIJKLMNOPQRSTUVXYZ' +
 
 # This gets us better error messages for certain common request errors
 app.config['TRAP_BAD_REQUEST_ERRORS'] = True
+ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+
+
+# new for file upload
+app.config['UPLOADS'] = 'uploads'
+app.config['MAX_CONTENT_LENGTH'] = 1024*1024*1024 #1*1024*1024 is 1 MB
 
 work = []                       # shared data structure ===
 lock = Lock()                   # create lock =============
@@ -263,11 +271,25 @@ def company(compName):
             conn.commit()
             flash('Upload successful')
             return render_template('company.html',
-                                   src=url_for('pic',compName=compName),
+                                   src=url_for('pic',nm=compName),
                                    nm=compName, comp = compName, internships = appList)
         except Exception as err:
             flash('Upload failed {why}'.format(why=err))
             return render_template('company.html',src='',nm='', comp = compName, internships = appList)
+
+@app.route('/pic/<nm>')
+def pic(nm):
+    conn = dbi.connect()
+    curs = dbi.dict_cursor(conn)
+    numrows = curs.execute(
+        '''select filename from picfile where compName = %s''',
+        [nm])
+    if numrows == 0:
+        flash('No picture for {}'.format(nm))
+        return redirect(url_for('company', compName = nm))
+    row = curs.fetchone()
+    return send_from_directory(app.config['UPLOADS'],row['filename'])
+
             
 
 @app.route("/logout")
