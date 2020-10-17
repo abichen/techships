@@ -3,6 +3,7 @@ from flask import (Flask, render_template, make_response, url_for, request,
 from werkzeug.utils import secure_filename
 from threading import Thread, Lock
 
+import os
 import random
 import cs304dbi as dbi
 import sqlHelper
@@ -155,28 +156,39 @@ def saved():
 @app.route('/login', methods = ['GET','POST'])
 def login():
     '''Displays login page, and redirects to search page after user logs in successfully.'''
-    conn = dbi.connect()
     if request.method == "POST":
-        username = request.form['username']
-        temp_password = request.form['password']
-        does_user_exist = sqlHelper.getPassword(conn, username)
-        if does_user_exist == False:
-            flash('''Login failed. Invalid Username or password.''')
-            return redirect(url_for('login'))
-        else:
-            password = does_user_exist[1]
-            print('database has hashed: {} {}'.format(password,type(password)))
-            print('form supplied passwd: {} {}'.format(temp_password,type(temp_password)))
-            hashed2 = bcrypt.hashpw(temp_password.encode('utf-8'), password.encode('utf-8')) #used to use bcrypt.gensalt()  as salt
-            hashed2_string = hashed2.decode('utf-8')
-
-            if hashed2_string == password: # used to be if bcrypt.hashpw(password.encode('utf-8'), hashed2) == hashed2:
+        try:
+            username = request.form['username']
+            passwd = request.form['password']
+            conn = dbi.connect()
+            curs = dbi.dict_cursor(conn)
+            curs.execute('''SELECT uid,password1
+                        FROM user
+                        WHERE uid = %s''',
+                        [username])
+            row = curs.fetchone()
+            if row is None:
+                # Same response as wrong password,
+                # so no information about what went wrong
+                flash('login incorrect. Try again or join')
+                return redirect( url_for('index'))
+            hashed = row['password1'] #was 'hashed'
+            print('database has hashed: {} {}'.format(hashed,type(hashed)))
+            print('form supplied passwd: {} {}'.format(passwd,type(passwd)))
+            x = hashed.encode('utf-8')
+            hashed2 = bcrypt.hashpw(x, passwd.encode('utf-8'))
+            hashed2_str = hashed2.decode('utf-8')
+            print('rehash is: {} {}'.format(hashed2_str,type(hashed2_str)))
+            if hashed2_str == hashed:
                 session['uid'] = request.form['username']
                 flash('''Successfully logged in.''')
                 return redirect(url_for('search'))
             else:
                 flash('''Login failed. Invalid username or password.''')
                 return redirect(url_for('login'))
+        except Exception as err:
+            flash('form submission error '+str(err))
+            return redirect( url_for('index') )
     else:
         return render_template('login.html')
 
