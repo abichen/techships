@@ -174,7 +174,7 @@ def getPassword(conn, username):
     curs.execute('''SELECT uid,password1
                       FROM user
                       WHERE uid = %s''',
-                     [uid])
+                     [username])
     row = curs.fetchone()
 
     if row is None:

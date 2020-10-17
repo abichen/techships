@@ -160,18 +160,16 @@ def login():
         username = request.form['username']
         temp_password = request.form['password']
         does_user_exist = sqlHelper.getPassword(conn, username)
+
         if does_user_exist == False:
             flash('''Login failed. Invalid username or password.''')
             return redirect(url_for('index'))
         else:
-            #USE BCRYPT HERE TO CHECK!!!!!!!!!!!!!
-            #rehash temp_password and check if it matches the password from the database
-            hashed = does_user_exist[1]
+            password = does_user_exist[1]
             hashed2 = bcrypt.hashpw(temp_password.encode('utf-8'),bcrypt.gensalt())
-            hashed2_string = hashed2.encode().decode('utf-8')
-            print(hashed)
-            print(hashed2_string)
-            if hashed2_string == hashed:
+            hashed2_string = hashed2.decode('utf-8')
+
+            if bcrypt.hashpw(password.encode('utf-8'), hashed2) == hashed2:
                 session['uid'] = request.form['username']
                 flash('''Successfully logged in.''')
                 return redirect(url_for('search'))
