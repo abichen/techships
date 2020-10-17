@@ -222,22 +222,26 @@ def register():
             error = 'Email is required.'
             flash(error)
         else:
+            lock.acquire()
             is_username_unique = sqlHelper.is_username_unique(conn,username)
             #Check for username uniqueness, register if it is unique
             if is_username_unique == True:
                 try:
                     hashed = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
                     sqlHelper.register(conn, username, hashed, email, school)
+                    lock.release()
                     flash('''Account has been created.''')
                     return redirect(url_for('login'))
                 except:
                     error = '''This user is already registered.'''
                     flash(error)
+                    lock.release()
                     return render_template('register.html')
             else:
                 error = '''This username is already taken. 
                 Please pick a new username'''
                 flash(error)
+                lock.release()
                 return render_template('register.html')            
     
     else:
