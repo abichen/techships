@@ -61,6 +61,10 @@ table {
     color: var(--color-table-text);
   }
 
+.tableheads {
+    color: darkslategray;
+}
+
   tr:hover {background-color: #f4f0ff;}
 
 th, td {
