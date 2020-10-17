@@ -1,9 +1,10 @@
 from flask import (Flask, render_template, make_response, url_for, request,
-                   redirect, flash, session, send_from_directory, jsonify)
+                   redirect, flash, session, send_from_directory, jsonify, Response)
 from werkzeug.utils import secure_filename
 from threading import Thread, Lock
 
-import os
+import sys, os, random
+import imghdr
 import random
 import cs304dbi as dbi
 import sqlHelper
@@ -234,12 +235,40 @@ def register():
     else:
         return render_template('register.html')
 
-@app.route("/company/<compName>")
+@app.route("/company/<compName>", methods=["GET", "POST"])
 def company(compName):
     conn = dbi.connect()
-    
-    appList = sqlHelper.getByCompany(conn, compName)
-    return render_template('company.html', comp = compName, internships = appList)
+    if request.method == 'GET':
+        appList = sqlHelper.getByCompany(conn, compName)
+        return render_template('company.html', src='',nm='', comp = compName, internships = appList)
+    else:
+        appList = sqlHelper.getByCompany(conn, compName)
+        try:
+            #nm = int(request.form['nm']) # may throw error
+            f = request.files['pic']
+            user_filename = f.filename
+            ext = user_filename.split('.')[-1]
+            filename = secure_filename('{}.{}'.format(compName,ext))
+            print("!!TEST 1!! file name")
+            print(filename)
+            pathname = os.path.join(app.config['UPLOADS'],filename)
+            f.save(pathname)
+            print("!!TEST!! file name")
+            print(filename)
+            curs = dbi.dict_cursor(conn)
+            curs.execute(
+                '''insert into picfile(compName,filename) values (%s,%s)
+                   on duplicate key update filename = %s''',
+                [compName, filename, filename])
+            conn.commit()
+            flash('Upload successful')
+            return render_template('company.html',
+                                   src=url_for('pic',compName=compName),
+                                   nm=compName, comp = compName, internships = appList)
+        except Exception as err:
+            flash('Upload failed {why}'.format(why=err))
+            return render_template('company.html',src='',nm='', comp = compName, internships = appList)
+            
 
 @app.route("/logout")
 def logout():

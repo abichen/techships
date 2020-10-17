@@ -1,5 +1,6 @@
 use techship_db;
 
+drop table if exists picfile;
 drop table if exists reviews;
 drop table if exists favorites;
 drop table if exists appLocation;
@@ -83,3 +84,13 @@ create table review(
 )
 
 engine = InnoDb;
+
+create table picfile (
+    compName varchar(30),
+    filename varchar(50),
+    foreign key (compName) references company(compName) 
+        on delete cascade on update cascade
+)
+
+engine = InnoDb;
+
