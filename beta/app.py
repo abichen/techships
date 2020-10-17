@@ -163,7 +163,7 @@ def login():
 
         if does_user_exist == False:
             flash('''Login failed. Invalid username or password.''')
-            return redirect(url_for('index'))
+            return redirect(url_for('login'))
         else:
             password = does_user_exist[1]
             hashed2 = bcrypt.hashpw(temp_password.encode('utf-8'),bcrypt.gensalt())
@@ -175,7 +175,7 @@ def login():
                 return redirect(url_for('search'))
             else:
                 flash('''Login failed. Invalid username or password.''')
-                return redirect(url_for('index'))
+                return redirect(url_for('login'))
     else:
         return render_template('login.html')
 
