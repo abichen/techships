@@ -4,7 +4,7 @@
 HTML {
     height: 100%;
     --color-background: #DAC7FD;
-    --color-header: white;  /* color for H1-H6 and others. was deepskyblue but poor contrast. */
+    --color-header:   #FFFFFF;  /* white; */  /* color for H1-H6 and others. was deepskyblue but poor contrast. */
     --color-subheader: #B288C0;
     --color-text: #212121;
     --color-table-text: #4f4f4f;
@@ -18,7 +18,7 @@ body{
     /* background-image: linear-gradient(to bottom right, #855AFC, #4E7DFC); */
 
     /* playing around with some other background options: */
-    background-image: radial-gradient( circle farthest-corner at 0.8% 3.1%,  rgba(255,188,224,1) 0%, rgba(170,165,255,1) 46%, rgba(165,255,205,1) 100.2% );
+    background-image: linear-gradient(20deg, rgba(201,104,157,0.9689007234726688) 28%, rgba(187,158,223,1) 74%); /*radial-gradient( circle farthest-corner at 0.8% 3.1%,  rgba(255,188,224,1) 0%, rgba(170,165,255,1) 46%, rgba(165,255,205,1) 100.2% );*/
     height:100%;
     background-repeat: no-repeat;
     background-attachment: fixed;
